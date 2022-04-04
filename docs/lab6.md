@@ -7,8 +7,10 @@ title: 6. Tips and useful commands
 
 Here are some additional very useful commands.
 
+### Images
+
 ```
-docker images  
+docker image ls
 ```
 
 Lists all images downloaded from Docker Hub (or other repositories) and created by `docker build` locally.
@@ -34,16 +36,17 @@ docker image prune
 You can get rid of specific container image using:
 
 ```
-docker rmi <IMAGE ID>
+docker image rm <IMAGE ID>
 ```
 
 If the image is used by a container, Docker will not remove it.
 
+### Networks
 
 In Lab 4 ('Add MySQL DB, Multi-Container apps') we added a Docker network. To display all networks, use:
 
 ```
-docker network list
+docker network ls
 ```
 
 To delete a specific network (e.g. the todo-app network from Lab 4), issue:
@@ -52,13 +55,21 @@ To delete a specific network (e.g. the todo-app network from Lab 4), issue:
 docker network rm todo-app
 ```
 
+### Volumes
+
 And, very similar, for volumes:
 
 ```
 docker volume ls
 ```
 
-To get rid of unused volumes:
+Delete a specific volume:
+
+```
+docker volume rm <volume name>
+```
+
+To get rid of all unused volumes:
 
 ```
 docker volume prune
