@@ -1,0 +1,21 @@
+theme: jekyll-theme-minimal
+title: Docker 101
+description: Tutorial to learn the Docker basics
+show_downloads: False
+navigation:
+  - title: Overview
+    url: /
+  - title: 1. Deploy ToDo stand-alone
+    url: docs/lab1
+  - title: 2. Update the app, build a new image
+    url: docs/lab2
+  - title: 3. Persisiting the data, Volumes
+    url: docs/lab3
+  - title: 4. Add MySQL DB, Multi-Container apps
+    url: docs/lab4
+  - title: 5. Image Building Best Practises
+    url: docs/lab5
+  - title: 6. Tips and useful commands
+    url: docs/lab6    
+
+
