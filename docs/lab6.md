@@ -9,11 +9,11 @@ Here are some additional very useful commands.
 
 ### Images
 
+List all images downloaded from Docker Hub (or other repositories) and created by `docker build` locally:
+
 ```
 docker image ls
 ```
-
-Lists all images downloaded from Docker Hub (or other repositories) and created by `docker build` locally.
 
 If you are busy making changes to your application and rebuilding images, you may get "dangling images":
 
