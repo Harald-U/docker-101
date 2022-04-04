@@ -52,6 +52,19 @@ To delete a specific network (e.g. the todo-app network from Lab 4), issue:
 docker network rm todo-app
 ```
 
+And, very similar, for volumes:
+
+```
+docker volume ls
+```
+
+To get rid of unused volumes:
+
+```
+docker volume prune
+```
+
+
 ## Tools
 
 And here is a useful tool, specifically for Linux users since there is no graphical Docker Desktop but it works on Mac and Windows, too. It is called Lazydocker.
