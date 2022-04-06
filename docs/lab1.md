@@ -11,7 +11,10 @@ At this point, your development team is quite small and you're simply building a
 
 ## Building the Container Image
 
-In order to build the application, we need to use a Dockerfile. A Dockerfile is simply a text-based script of instructions that is used to create a container image. 
+> **What is a container image?**
+> When running a container, it uses an isolated filesystem. This custom filesystem is provided by a container image. Since the image contains the container's filesystem, it must contain everything needed to run an application - all dependencies, configuration, scripts, binaries, etc. The image also contains other configuration for the container, such as environment variables, a default command to run, and other metadata.
+
+In order to build a container image, we need to use a Dockerfile. A Dockerfile is something like a cooking recipe. It is simply a text-based script of instructions and "ingredients" that are used to package your application into a container image. 
 
 1. Create a file named Dockerfile **in the same folder as the file package.json** with the following contents.
 
@@ -27,21 +30,21 @@ In order to build the application, we need to use a Dockerfile. A Dockerfile is 
 
    > Please check that the file Dockerfile has no file extension like .txt. Some editors may append this file extension automatically and this would result in an error in the next step.
 
-   What do the commands in the Dockerfile mean?
+   What do the lines in the Dockerfile mean?
 
    <dl>
    <dt>FROM</dt>
-     <dd>This the base image you are building upon</dd>
+     <dd>This the base image you are building upon. We want to use a Node.js version 12 image based upon Alpine Linux.</dd>
    <dt>RUN</dt>
-     <dd>This command will be executed during the BUILD of the container image</dd>
+     <dd>The RUN command will be executed during the BUILD of the container image. The first RUN command installs some development tools not contained in the base image. The second RUN command uses 'yarn' to resolve the Node.js dependencies.</dd>
    <dt>WRKDIR</dt>
-     <dd>This will be the working directory in the container image</dd>
+     <dd>This will set the working directory within the container image.</dd>
    <dt>COPY</dt>
-     <dd>Copy data from your notebook into the container image</dd>
+     <dd>Copy the source code from your notebook into the container image.</dd>
    <dt>EXPOSE</dt>
-     <dd>This is the port your application is using</dd>
+     <dd>This makes the port your application is using available so that we can connect to it from outside the container.</dd>
    <dt>CMD</dt>
-     <dd>This command starts your application when the container starts</dd>   
+     <dd>This is the start command of your application, executed when the container is run.</dd>   
    </dl>
 
 2. If you haven't already done so, open a terminal and go to the app directory with the Dockerfile. Now build the container image using the docker build command.
@@ -60,7 +63,10 @@ In order to build the application, we need to use a Dockerfile. A Dockerfile is 
 
 ## Starting an App Container
 
-Now that we have an image, let's run the application! To do so, we will use the docker run command.
+Now that we have an image, let's run the application! To do so, we will use the docker run command to start a conatiner based on the container image we just created.
+
+> **What is a container?**
+> Simply put, a container is just another process on your machine that has been isolated from all other processes on the host machine. That isolation leverages kernel namespaces and cgroups, features that have been in the Linux kernel for a long time.
 
 1. Start your container using the docker run command and specify the name of the image we just created:
 
