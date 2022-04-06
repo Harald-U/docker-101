@@ -93,7 +93,7 @@ The todo app supports the setting of a few environment variables to specify MySQ
 
 **WARNING**
 
-> While using env vars to set connection settings is generally ok for development, it is HIGHLY DISCOURAGED when running applications in production. A more secure mechanism is to use the secret support provided by your container orchestration framework, e.g. Kubernetes.
+> While using env vars to set connection settings is generally OK for development, it is HIGHLY DISCOURAGED when running applications in production. A more secure mechanism is to use the secret support provided by your container orchestration framework, e.g. Kubernetes.
 
 With all of that explained, let's start our dev-ready container!
 
@@ -107,7 +107,7 @@ With all of that explained, let's start our dev-ready container!
    -e MYSQL_USER=root \
    -e MYSQL_PASSWORD=secret \
    -e MYSQL_DB=todos \
-   getting-started
+   todo-app
    ```
 
 2. If we look at the logs for the container (`docker logs todo`), we should see a message indicating it's using the mysql database.

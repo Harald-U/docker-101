@@ -19,7 +19,7 @@ If you are busy making changes to your application and rebuilding images, you ma
 
 ```
 REPOSITORY                    TAG            IMAGE ID       CREATED          SIZE
-getting-started               latest         72b0060cd278   18 minutes ago   404MB
+todo-app                      latest         72b0060cd278   18 minutes ago   404MB
 <none>                        <none>         8c27584a6af2   19 minutes ago   458MB
 <none>                        <none>         aeecef657347   20 minutes ago   458MB
 <none>                        <none>         f78b96b14576   6 hours ago      456MB

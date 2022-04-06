@@ -80,7 +80,7 @@ As mentioned, we are going to use a named volume. Think of a named volume as sim
 3. Start the todo app container, but add the -v flag to specify a volume mount. We will use the named volume and mount it to /etc/todos, which will capture all files created at the path. This time we also specify a name (todo) for the container.
 
     ```
-    docker run -dp 3000:3000 --name todo -v todo-db:/etc/todos getting-started
+    docker run -dp 3000:3000 --name todo -v todo-db:/etc/todos todo-app
     ```
 
 4. Once the container starts up, open the app and add a few items to your todo list.

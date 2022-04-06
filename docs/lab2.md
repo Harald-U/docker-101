@@ -31,13 +31,13 @@ Pretty simple, right? Let's make the change.
 2. Build an updated version of the image, using the same command we used before.
 
     ```
-    docker build -t getting-started .
+    docker build -t todo-app .
     ```
 
 3. Start a new container using the updated code.
 
     ```
-    docker run -dp 3000:3000 getting-started
+    docker run -dp 3000:3000 todo-app
     ```
 
 **Uh oh!** You probably saw an error like this (the IDs will be different):
@@ -81,7 +81,7 @@ Result:
 
 ```
 CONTAINER ID  IMAGE            COMMAND                 CREATED         STATUS         PORTS                   NAMES
-8611edc94d23  getting-started  "docker-entrypoint.s…"  3 seconds ago   created                                quirky_jemison
+8611edc94d23  todo-app         "docker-entrypoint.s…"  3 seconds ago   created                                quirky_jemison
 ```
 
 You can remove this "dangling" container with the help of `docker rm <the-container-id>`.

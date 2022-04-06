@@ -9,10 +9,10 @@ Here is some useful information and best practises for Docker Images and Image B
 
 You can look at what makes up an image using the docker image history command. You can see the command that was used to create each layer within an image.
 
-Use the `docker image history` command to see the layers in the getting-started image you created earlier in the tutorial.
+Use the `docker image history` command to see the layers in the todo-app image you created earlier in the tutorial.
 
 ```
-docker image history getting-started
+docker image history todo-app
 ```
 
 You should get output that looks something like this (dates/IDs may be different).
@@ -84,7 +84,7 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 3. Build a new image.
 
     ```
-    docker build -t getting-started .
+    docker build -t todo-app .
     ```
 
     You should see output like this...
@@ -130,14 +130,14 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
     Removing intermediate container 1c3defcd9716
     ---> 1dc587135308
     Successfully built 1dc587135308
-    Successfully tagged getting-started:latest
+    Successfully tagged todo-app:latest
     ```
 
     You'll see that most layers were rebuilt. Perfectly fine since we changed the Dockerfile quite a bit. 
 
 4. Now, make a change to the `src/static/index.html` file (like change the <title> to say "The Awesome Todo App").
 
-5. Build the Docker image now using `docker build -t getting-started .` again. This time, your output should look a little different.
+5. Build the Docker image now using `docker build -t todo-app .` again. This time, your output should look a little different.
 
     ```
     Sending build context to Docker daemon  4.642MB
@@ -165,7 +165,7 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
     Removing intermediate container ec937d594973
     ---> a1f2fb9dbec3
     Successfully built a1f2fb9dbec3
-    Successfully tagged getting-started:latest
+    Successfully tagged todo-app:latest
     ```
 
     First off, you should notice that the build was MUCH faster! And, you'll see that steps 2-6 all have 'Using cache'. So we are using the build cache. Pushing and pulling this image and updates to it will be much faster as well. 

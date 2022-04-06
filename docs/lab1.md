@@ -47,14 +47,14 @@ In order to build the application, we need to use a Dockerfile. A Dockerfile is 
 2. If you haven't already done so, open a terminal and go to the app directory with the Dockerfile. Now build the container image using the docker build command.
 
    ```
-   docker build -t getting-started .
+   docker build -t todo-app .
    ```
 
    This command used the Dockerfile to build a new container image. You might have noticed that a lot of "layers" were downloaded. This is because we instructed the builder that we wanted to start FROM the node:12-alpine image. But, since we didn't have that on our machine, that image needed to be downloaded.
 
    After the image was downloaded, we copied in our application and used yarn to install our application's dependencies. The CMD directive specifies the default command to run when starting a container from this image.
 
-   Finally, the -t flag 'tags' our image. Think of this simply as a human-readable name for the final image. Since we named the image getting-started, we can refer to that image when we run a container.
+   Finally, the -t flag 'tags' our image. Think of this simply as a human-readable name for the final image. Since we named the image 'todo-app', we can refer to that image when we run a container.
 
    Don't forget the . at the end of the docker build command! It tells that Docker should look for the Dockerfile in the current directory.
 
@@ -65,7 +65,7 @@ Now that we have an image, let's run the application! To do so, we will use the 
 1. Start your container using the docker run command and specify the name of the image we just created:
 
    ```
-   docker run -dp 3000:3000 getting-started
+   docker run -dp 3000:3000 todo-app
    ```
 
    What are the -d and -p flags?
@@ -104,7 +104,7 @@ Now that we have an image, let's run the application! To do so, we will use the 
 
    ```
    CONTAINER ID   IMAGE                    COMMAND                  CREATED          STATUS          PORTS                                       NAMES
-   b46846361370   getting-started          "docker-entrypoint.s…"   6 minutes ago    Up 6 minutes    0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   focused_kepler
+   b46846361370   todo-app                 "docker-entrypoint.s…"   6 minutes ago    Up 6 minutes    0.0.0.0:3000->3000/tcp, :::3000->3000/tcp   focused_kepler
    ```
 
 ---
