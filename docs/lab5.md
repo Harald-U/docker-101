@@ -7,7 +7,14 @@ Here is some useful information and best practises for Docker Images and Image B
 
 ## Image Layering
 
-You can look at what makes up an image using the docker image history command. You can see the command that was used to create each layer within an image.
+* A Docker image is built up from a series of layers. 
+* Each layer represents an instruction in the image’s Dockerfile. 
+* Each layer except the very last one is read-only. 
+* Each layer is only a set of differences from the layer before it. Note that both adding, and removing files will result in a new layer.
+* The layers are stacked on top of each other. 
+* A method called [union mounting](https://en.wikipedia.org/wiki/Union_mount) is used to combine these layers into one filesystem.
+
+You can look at what makes up an image using the `docker image history` command. You can see the instruction that was used to create each layer within an image.
 
 Use the `docker image history` command to see the layers in the todo-app image you created earlier in the tutorial.
 
@@ -36,7 +43,7 @@ f73ddab641af   6 hours ago    /bin/sh -c #(nop) COPY dir:af1af34f90a8195a8…   
 <missing>      4 months ago   /bin/sh -c #(nop) ADD file:9233f6f2237d79659…   5.59MB    
 ```
 
-Each of the lines represents a layer in the image. The display here shows the base image (`FROM node:12-alpine`) at the bottom (the lines where IMAGE is missing) with the newest layer at the top. Using this, you can also quickly see the size of each layer, helping diagnose large images.
+Each of the lines represents a layer in the image. The display here shows the layers that are part of the base image (`FROM node:12-alpine`) at the bottom (the lines where IMAGE is missing plus IMAGE=1b156b4c3ee8) and the newest layer at the top. Using this, you can also quickly see the size of each layer, helping diagnose large images.
 
 ## Layer Caching
 
@@ -56,7 +63,9 @@ EXPOSE 3000
 CMD ["node", "src/index.js"]
 ```
 
-Going back to the image history output, we see that **each command in the Dockerfile becomes a new layer in the image**. You might remember that when we made a very small change to the image (we changed a string), the yarn dependencies had to be reinstalled which takes a long time. Is there a way to fix this? It doesn't make much sense to ship around the same dependencies every time we build, right?
+Going back to the image history output, we see that **each command in the Dockerfile becomes a new layer in the image**. 
+
+You might remember that when we made a very small change to the image (we simply changed a string in one file), the Node.js dependencies had to be reinstalled which takes a long time. Is there a way to fix this? 
 
 To fix this, we need to restructure our Dockerfile to help support the caching of the dependencies. For Node-based applications, those dependencies are defined in the package.json file. So, what if we copied only that file in first, install the dependencies, and then copy in everything else? Then, we only recreate the yarn dependencies if there was a change to the package.json. Make sense?
 
@@ -79,7 +88,11 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
    node_modules
    ```
 
-    `.dockerignore` files are an easy way to selectively copy only image relevant files. You can read more about this [here](https://docs.docker.com/engine/reference/builder/#dockerignore-file). In this case, the `node_modules` folder should be omitted in the second `COPY` step because otherwise, it would possibly overwrite files which were created by the command in the RUN step. For further details on why this is recommended for Node.js applications and other best practices, have a look at their guide on [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/).
+    `.dockerignore` files are an easy way to selectively copy only image relevant files. You can read more about this [here](https://docs.docker.com/engine/reference/builder/#dockerignore-file). In this case, the local `node_modules` folder should be omitted in the second `COPY` step because otherwise, it would possibly overwrite files which were created by the command in the RUN step. 
+    
+    For further details on why this is recommended for Node.js applications and other best practices, have a look at their guide on [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/).
+
+    If you develop in Python, I found this [blog](https://www.docker.com/blog/containerized-python-development-part-1/) for you.
 
 3. Build a new image.
 
@@ -135,9 +148,9 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 
     You'll see that most layers were rebuilt. Perfectly fine since we changed the Dockerfile quite a bit. 
 
-4. Now, make a change to the `src/static/index.html` file (like change the <title> to say "The Awesome Todo App").
+4. Now, make a change to the `src/static/index.html` file (e.g. change the <title> to say "The Awesome Todo App").
 
-5. Build the Docker image now using `docker build -t todo-app .` again. This time, your output should look a little different.
+5. Rebuild the Docker image again using `docker build -t todo-app .` again. This time, your output should look a little different.
 
     ```
     Sending build context to Docker daemon  4.642MB
