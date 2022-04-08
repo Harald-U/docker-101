@@ -2,6 +2,7 @@ theme: jekyll-theme-minimal
 title: Docker 101
 updated: 7.4.2022
 description: Tutorial to learn the Docker basics
+logo: assets/img/docker-logo.png
 show_downloads: False
 navigation:
   - title: Overview
