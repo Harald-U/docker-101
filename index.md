@@ -35,9 +35,9 @@ cd docker-101/app
 
 We are going to deploy a ToDo app based on Node.js. It can run "stand-alone" using a built in SQLite database or it can connect with a external MySQL database. 
 
-- [Lab 1](docs/lab1.md) - Deploy ToDo stand-alone
-- [Lab 2](docs/lab2.md) - Update the app, build a new image
-- [Lab 3](docs/lab3.md) - Persisiting the data, Volumes
-- [Lab 4](docs/lab4.md) - Add MySQL DB, Multi-Container apps
-- [Lab 5](docs/lab5.md) - Image Building Best Practises
+- [Lab 1](workshop/lab1.md) - Deploy ToDo stand-alone
+- [Lab 2](workshop/lab2.md) - Update the app, build a new image
+- [Lab 3](workshop/lab3.md) - Persisiting the data, Volumes
+- [Lab 4](workshop/lab4.md) - Add MySQL DB, Multi-Container apps
+- [Lab 5](workshop/lab5.md) - Image Building Best Practises
 
