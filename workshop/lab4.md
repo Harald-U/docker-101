@@ -41,7 +41,7 @@ We will create a Docker network first and attach the MySQL container at startup.
    --name mysql \
    -e MYSQL_ROOT_PASSWORD=secret \
    -e MYSQL_DATABASE=todos \
-   mysql:5.7
+   mysql:8
    ```
 
    Notice that we specified the `--network-alias` flag. We'll come back to that in just a moment.

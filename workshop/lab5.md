@@ -5,6 +5,34 @@ title: 5. Image Building Best Practises
 
 Here is some useful information and best practises for Docker Images and Image Building.
 
+## Security Scanning
+
+When you have built an image, it is good practice to scan it for security vulnerabilities using the docker scan command. Docker has partnered with Snyk to provide the vulnerability scanning service.
+
+For example, to scan the todo-app image you created earlier in the tutorial, you can just type
+
+```
+docker scan todo-app
+```
+
+The scan uses a constantly updated database of vulnerabilities, so the output you see will vary as new vulnerabilities are discovered, but it might look something like this:
+
+```
+Testing todo-app...
+
+Tested 177 dependencies for known vulnerabilities, found 1 vulnerability.
+
+
+Issues with no direct upgrade or patch:
+  ✗ Regular Expression Denial of Service (ReDoS) [Low Severity][https://security.snyk.io/vuln/SNYK-JS-DEBUG-3227433] in debug@2.6.9
+    introduced by express@4.18.2 > debug@2.6.9 and 4 other path(s)
+  This issue was fixed in versions: 3.1.0
+```
+
+The output lists the type of vulnerability, a URL to learn more, and importantly which version of the relevant library fixes the vulnerability.
+
+There are several other options, which you can read about in the [docker scan documentation](https://docs.docker.com/engine/scan/).
+
 ## Image Layering
 
 * A Docker image is built up from a series of layers. 
@@ -25,25 +53,24 @@ docker image history todo-app
 You should get output that looks something like this (dates/IDs may be different).
 
 ```
-IMAGE          CREATED        CREATED BY                                      SIZE      COMMENT
-f78b96b14576   6 hours ago    /bin/sh -c #(nop)  CMD ["node" "src/index.js…   0B        
-c8b30f41e4a6   6 hours ago    /bin/sh -c #(nop)  EXPOSE 3000                  0B        
-c8c8e3943f9b   6 hours ago    /bin/sh -c yarn install --production            83.8MB    
-f73ddab641af   6 hours ago    /bin/sh -c #(nop) COPY dir:af1af34f90a8195a8…   58.1MB    
-738ef65ba08b   23 hours ago   /bin/sh -c #(nop) WORKDIR /app                  0B        
-62f34aa2c196   23 hours ago   /bin/sh -c apk add --no-cache python2 g++ ma…   223MB     
-1b156b4c3ee8   8 weeks ago    /bin/sh -c #(nop)  CMD ["node"]                 0B        
-<missing>      8 weeks ago    /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B        
-<missing>      8 weeks ago    /bin/sh -c #(nop) COPY file:4d192565a7220e13…   388B      
-<missing>      8 weeks ago    /bin/sh -c apk add --no-cache --virtual .bui…   7.84MB    
-<missing>      8 weeks ago    /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.17     0B        
-<missing>      8 weeks ago    /bin/sh -c addgroup -g 1000 node     && addu…   77.6MB    
-<missing>      8 weeks ago    /bin/sh -c #(nop)  ENV NODE_VERSION=12.22.10    0B        
-<missing>      4 months ago   /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B        
-<missing>      4 months ago   /bin/sh -c #(nop) ADD file:9233f6f2237d79659…   5.59MB    
+IMAGE          CREATED          CREATED BY                                      SIZE      COMMENT
+f83833d643ab   18 minutes ago   /bin/sh -c #(nop)  CMD ["node" "src/index.js…   0B        
+06254ea30784   18 minutes ago   /bin/sh -c #(nop)  EXPOSE 3000                  0B        
+8bbf29cc9373   18 minutes ago   /bin/sh -c yarn install --production            83.1MB    
+14606c75b984   18 minutes ago   /bin/sh -c #(nop) COPY dir:da0b6872d8a18c7af…   4.59MB    
+925974a6d06b   18 minutes ago   /bin/sh -c #(nop) WORKDIR /app                  0B        
+264f8646c2a6   20 hours ago     /bin/sh -c #(nop)  CMD ["node"]                 0B        
+<missing>      20 hours ago     /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B        
+<missing>      20 hours ago     /bin/sh -c #(nop) COPY file:4d192565a7220e13…   388B      
+<missing>      20 hours ago     /bin/sh -c apk add --no-cache --virtual .bui…   7.78MB    
+<missing>      20 hours ago     /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.19     0B        
+<missing>      20 hours ago     /bin/sh -c addgroup -g 1000 node     && addu…   158MB     
+<missing>      20 hours ago     /bin/sh -c #(nop)  ENV NODE_VERSION=18.13.0     0B        
+<missing>      22 hours ago     /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B        
+<missing>      22 hours ago     /bin/sh -c #(nop) ADD file:e4d600fc4c9c293ef…   7.05MB    
 ```
 
-Each of the lines represents a layer in the image. The display here shows the layers that are part of the base image (`FROM node:12-alpine`) at the bottom (the lines where IMAGE is missing plus IMAGE=1b156b4c3ee8) and the newest layer at the top. Using this, you can also quickly see the size of each layer, helping diagnose large images.
+Each of the lines represents a layer in the image. The display here shows the layers that are part of the base image (`FROM node:18-alpine`) at the bottom (the lines where IMAGE is missing plus IMAGE=1b156b4c3ee8) and the newest layer at the top. Using this, you can also quickly see the size of each layer, helping diagnose large images.
 
 ## Layer Caching
 
@@ -54,8 +81,7 @@ Now that you've seen the layering in action, there's an important lesson to lear
 Let's look at the Dockerfile we were using one more time...
 
 ```
-FROM node:12-alpine
-RUN apk add --no-cache python2 g++ make
+FROM node:18-alpine
 WORKDIR /app
 COPY . .
 RUN yarn install --production
@@ -71,16 +97,15 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 
 1. Update the Dockerfile to copy in the `package.json` (and yarn.lock) first, install dependencies, and then copy everything else in.
 
-   ```
-   FROM node:12-alpine
-   RUN apk add --no-cache python2 g++ make
-   EXPOSE 3000
-   WORKDIR /app
-   COPY package.json yarn.lock ./
-   RUN yarn install --production
-   COPY . .
-   CMD ["node", "src/index.js"]
-   ```
+    ```
+    FROM node:18-alpine
+    WORKDIR /app
+    COPY package.json yarn.lock ./
+    RUN yarn install --production
+    EXPOSE 3000
+    COPY . .
+    CMD ["node", "src/index.js"]
+    ```
 
 2. Create a file named `.dockerignore` in the same folder as the Dockerfile with the following contents:
 
@@ -102,86 +127,73 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 
     You should see output like this...
 
-    ```
-    Sending build context to Docker daemon  4.642MB
-    Step 1/8 : FROM node:12-alpine
-    ---> 1b156b4c3ee8
-    Step 2/8 : RUN apk add --no-cache python2 g++ make
-    ---> Using cache
-    ---> fbb1cd3d25c1
-    Step 3/8 : EXPOSE 3000
-    ---> Running in 486f4a802a1d
-    Removing intermediate container 486f4a802a1d
-    ---> 7bd84b5c203a
-    Step 4/8 : WORKDIR /app
-    ---> Running in d548cf01b62c
-    Removing intermediate container d548cf01b62c
-    ---> 53567a4244f7
-    Step 5/8 : COPY package.json yarn.lock ./
-    ---> f3c4768c34c1
-    Step 6/8 : RUN yarn install --production
-    ---> Running in 594b1ea3bc04
-    yarn install v1.22.17
-    [1/4] Resolving packages...
-    warning Resolution field "ansi-regex@5.0.1" is incompatible with requested version "ansi-regex@^2.0.0"
-    warning Resolution field "ansi-regex@5.0.1" is incompatible with requested version "ansi-regex@^3.0.0"
-    warning sqlite3 > node-gyp > tar@2.2.2: This version of tar is no longer supported, and will not receive security updates. Please upgrade asap.
-    warning sqlite3 > node-gyp > request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
-    warning sqlite3 > node-gyp > request > har-validator@5.1.5: this library is no longer supported
-    warning sqlite3 > node-gyp > request > uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
-    [2/4] Fetching packages...
-    [3/4] Linking dependencies...
-    [4/4] Building fresh packages...
-    success Saved lockfile.
-    Done in 13.74s.
-    Removing intermediate container 594b1ea3bc04
-    ---> 6c36ed52bcaa
-    Step 7/8 : COPY . .
-    ---> 984157ecbeee
-    Step 8/8 : CMD ["node", "src/index.js"]
-    ---> Running in 1c3defcd9716
-    Removing intermediate container 1c3defcd9716
-    ---> 1dc587135308
-    Successfully built 1dc587135308
-    Successfully tagged todo-app:latest
-    ```
+        ```
+        Sending build context to Docker daemon  4.627MB
+        Step 1/7 : FROM node:18-alpine
+        ---> 264f8646c2a6
+        Step 2/7 : WORKDIR /app
+        ---> Running in 3287e6a1e4ca
+        Removing intermediate container 3287e6a1e4ca
+        ---> 0306daa9d08b
+        Step 3/7 : COPY package.json yarn.lock ./
+        ---> df2c0268bbd1
+        Step 4/7 : RUN yarn install --production
+        ---> Running in 57b23736ac32
+        yarn install v1.22.19
+        [1/4] Resolving packages...
+        [2/4] Fetching packages...
+        [3/4] Linking dependencies...
+        [4/4] Building fresh packages...
+        Done in 8.66s.
+        Removing intermediate container 57b23736ac32
+        ---> fae900ada624
+        Step 5/7 : EXPOSE 3000
+        ---> Running in 6bb086664e87
+        Removing intermediate container 6bb086664e87
+        ---> ba79f0f5240c
+        Step 6/7 : COPY . .
+        ---> 05d475752165
+        Step 7/7 : CMD ["node", "src/index.js"]
+        ---> Running in 3759e7651705
+        Removing intermediate container 3759e7651705
+        ---> a8986c16ade2
+        Successfully built a8986c16ade2
+        Successfully tagged todo-app:latest
+        ```
 
     You'll see that most layers were rebuilt. Perfectly fine since we changed the Dockerfile quite a bit. 
 
-4. Now, make a change to the `src/static/index.html` file (e.g. change the <title> to say "The Awesome Todo App").
+4. Now, make a change to the `src/static/index.html` file (e.g. change the `title` to say "The Awesome Todo App").
 
 5. Rebuild the Docker image again using `docker build -t todo-app .` again. This time, your output should look a little different.
 
-    ```
-    Sending build context to Docker daemon  4.642MB
-    Step 1/8 : FROM node:12-alpine
-    ---> 1b156b4c3ee8
-    Step 2/8 : RUN apk add --no-cache python2 g++ make
-    ---> Using cache
-    ---> fbb1cd3d25c1
-    Step 3/8 : EXPOSE 3000
-    ---> Using cache
-    ---> 7bd84b5c203a
-    Step 4/8 : WORKDIR /app
-    ---> Using cache
-    ---> 53567a4244f7
-    Step 5/8 : COPY package.json yarn.lock ./
-    ---> Using cache
-    ---> f3c4768c34c1
-    Step 6/8 : RUN yarn install --production
-    ---> Using cache
-    ---> 6c36ed52bcaa
-    Step 7/8 : COPY . .
-    ---> e05a0675d218
-    Step 8/8 : CMD ["node", "src/index.js"]
-    ---> Running in ec937d594973
-    Removing intermediate container ec937d594973
-    ---> a1f2fb9dbec3
-    Successfully built a1f2fb9dbec3
-    Successfully tagged todo-app:latest
-    ```
+        ```
+        Sending build context to Docker daemon  4.627MB
+        Step 1/7 : FROM node:18-alpine
+        ---> 264f8646c2a6
+        Step 2/7 : WORKDIR /app
+        ---> Using cache
+        ---> 0306daa9d08b
+        Step 3/7 : COPY package.json yarn.lock ./
+        ---> Using cache
+        ---> df2c0268bbd1
+        Step 4/7 : RUN yarn install --production
+        ---> Using cache
+        ---> fae900ada624
+        Step 5/7 : EXPOSE 3000
+        ---> Using cache
+        ---> ba79f0f5240c
+        Step 6/7 : COPY . .
+        ---> 9eedfc1f1b94
+        Step 7/7 : CMD ["node", "src/index.js"]
+        ---> Running in 7749575f18ea
+        Removing intermediate container 7749575f18ea
+        ---> e7170dba85e3
+        Successfully built e7170dba85e3
+        Successfully tagged todo-app:latest
+        ```
 
-    First off, you should notice that the build was MUCH faster! And, you'll see that steps 2-6 all have 'Using cache'. So we are using the build cache. Pushing and pulling this image and updates to it will be much faster as well. 
+    First off, you should notice that the build was MUCH faster! And, you'll see that steps 2 - 5 all have 'Using cache'. So we are using the build cache. Pushing and pulling this image and updates to it will be much faster as well. 
 
 ## Multi-Stage Builds
 

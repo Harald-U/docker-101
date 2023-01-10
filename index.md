@@ -3,26 +3,28 @@ layout: default
 title: Overview
 ---
 
-This workshop is based on the [Docker 101 Tutorial](https://www.docker.com/101-tutorial/), created by Docker and others. I wanted to focus on different aspects hence the fork. I used the original todo app and a great deal of the original texts from [here](https://github.com/docker/getting-started).
+This workshop is based on the [Docker 101 Tutorial](https://www.docker.com/101-tutorial/), created by Docker and others. I wanted to focus on different aspects hence the fork. 
+
+For this workhop I used the original Docker 101 Todo app and a great deal of the original texts from the [Docker 101 Github repo](https://github.com/docker/getting-started). A big thanks to Docker. Inc. for placing their work under an Apache 2.0 license.
 
 ## Objectives
 
 In this workshop, you will learn some Docker or Container basics, like:
 
-* creating a Dockerfile
-* creating a container image
-* starting a container
-* container networking
-* mounting external "volumes" onto containers
+* Creating a Dockerfile
+* Creating a container image
+* Starting a container
+* Container networking
+* Mounting external "volumes" onto containers
 
 ## Prerequisites
 
 * [git](https://git-scm.com/downloads)
 * [Docker](https://docs.docker.com/desktop/)
 
-Docker can be Docker CE for Linux or Docker Desktop for Mac or Windows. We will not cover installation of Docker (Desktop) in this workshop.  
+Docker can be Docker CE for Linux or Docker Desktop for Mac, Windows, or Linux. We will not cover installation of Docker (Desktop) in this workshop.  
 
-> **bwLehrpool** has all the required software installed. Change into the PERSISTENCE directory before cloning the repository in the next step.
+> **Note: bwLehrpool** has all the required software installed. Change into the PERSISTENCE directory before cloning the repository in the next step.
 
 ## Get the code
 

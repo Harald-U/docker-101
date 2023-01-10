@@ -16,36 +16,36 @@ At this point, your development team is quite small and you're simply building a
 
 In order to build a container image, we need to use a Dockerfile. A Dockerfile is something like a cooking recipe. It is simply a text-based script of instructions and "ingredients" that are used to package your application into a container image. 
 
-1. Create a file named Dockerfile **in the same folder as the file package.json** with the following contents.
+1. Create a file named Dockerfile **in the same folder as the file package.json** with the following contents:
 
-   ```
-   FROM node:12-alpine
-   RUN apk add --no-cache python2 g++ make
-   WORKDIR /app
-   COPY . .
-   RUN yarn install --production
-   EXPOSE 3000
-   CMD ["node", "src/index.js"]
-   ```
+    ```
+    FROM node:18-alpine
+    WORKDIR /app
+    COPY . .
+    RUN yarn install --production
+    EXPOSE 3000
+    CMD ["node", "src/index.js"]
+    ```
 
    > Please check that the file Dockerfile has no file extension like .txt. Some editors may append this file extension automatically and this would result in an error in the next step.
 
    What do the lines in the Dockerfile mean?
 
-   <dl>
-   <dt>FROM</dt>
-     <dd>This the base image you are building upon. We want to use a Node.js version 12 image based upon Alpine Linux.</dd>
-   <dt>RUN</dt>
-     <dd>The RUN command will be executed during the BUILD of the container image. The first RUN command installs some development tools not contained in the base image. The second RUN command uses 'yarn' to resolve the Node.js dependencies.</dd>
-   <dt>WRKDIR</dt>
-     <dd>This will set the working directory within the container image.</dd>
-   <dt>COPY</dt>
-     <dd>Copy the source code from your notebook into the container image.</dd>
-   <dt>EXPOSE</dt>
-     <dd>This makes the port your application is using available so that we can connect to it from outside the container.</dd>
-   <dt>CMD</dt>
-     <dd>This is the start command of your application, executed when the container is run.</dd>   
-   </dl>
+      <dl>
+      <dt>FROM</dt>
+      <dd>This the base image you are building upon. We want to use an image with Node.js version 18 built on Alpine Linux.</dd>
+      <dt>WRKDIR</dt>
+      <dd>This will set the working directory within the container image.</dd>  
+      <dt>COPY<dt>
+      <dd>Copy the source code from your notebook into the container image.</dd>
+      <dt>RUN</dt>
+      <dd>The RUN command will be executed during the BUILD of the container image. 
+      It uses 'yarn' to resolve the Node.js dependencies.</dd>
+      <dt>EXPOSE<dt>
+      <dd>This makes the port your application is using available so that we can connect to it from outside the container.</dd>
+      <dt>CMD</dt>
+      <dd>This is the start command of your application, executed when the container is run.</dd>   
+      </dl>
 
 2. If you haven't already done so, open a terminal and go to the app directory with the Dockerfile. Now build the container image using the docker build command.
 
@@ -85,7 +85,7 @@ Now that we have an image, let's run the application! To do so, we will use the 
    
    Note: the first port number (before the ':') is the host port on your notebook etc. If this port is already taken by another app, you could try another port. 
    
-   The second port (after the ':') is the container port. How do we know that the container port is 3000? If you look in file `source/index.js`  you can find this statement:
+   The second port (after the ':') is the container port. How do we know that the container port is 3000? If you look in file `src/index.js`  you can find this statement:
 
    ```
    app.listen(3000, () => console.log('Listening on port 3000'));
