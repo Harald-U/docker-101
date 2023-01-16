@@ -9,6 +9,13 @@ At this point, your development team is quite small and you're simply building a
 
 ![Todo App](images/todo-app.png)
 
+## Get the code
+
+```
+git clone https://github.com/Harald-U/docker-101.git
+cd docker-101/app
+```
+
 ## Building the Container Image
 
 > **What is a container image?**

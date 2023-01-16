@@ -26,13 +26,6 @@ Docker can be Docker CE for Linux or Docker Desktop for Mac, Windows, or Linux. 
 
 > **Note: bwLehrpool** has all the required software installed. Change into the PERSISTENCE directory before cloning the repository in the next step.
 
-## Get the code
-
-```
-git clone https://github.com/Harald-U/docker-101.git
-cd docker-101/app
-```
-
 ## Labs
 
 We are going to deploy a ToDo app based on Node.js. It can run "stand-alone" using a built in SQLite database or it can connect with a external MySQL database. 
