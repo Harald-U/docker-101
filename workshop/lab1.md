@@ -25,14 +25,14 @@ In order to build a container image, we need to use a Dockerfile. A Dockerfile i
 
 1. Create a file named Dockerfile **in the same folder as the file package.json** with the following contents:
 
-    ```
-    FROM node:18-alpine
-    WORKDIR /app
-    COPY . .
-    RUN yarn install --production
-    EXPOSE 3000
-    CMD ["node", "src/index.js"]
-    ```
+   ```
+   FROM node:18-alpine
+   WORKDIR /app
+   COPY . .
+   RUN yarn install --production
+   EXPOSE 3000
+   CMD ["node", "src/index.js"]
+   ```
 
    > Please check that the file Dockerfile has no file extension like .txt. Some editors may append this file extension automatically and this would result in an error in the next step.
 
