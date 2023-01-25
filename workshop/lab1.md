@@ -3,7 +3,7 @@ layout: default
 title: 1. Deploy ToDo stand-alone
 ---
 
-We will use a simple todo list app throughout this workshop. It is written in Node.js. You downloaded the code in the [Get the Code](../index.md#get-the-code) section previously.
+We will use a simple todo list app throughout this workshop. It is written in Node.js.  
 
 At this point, your development team is quite small and you're simply building an app to prove out your MVP (minimum viable product). You want to show how it works and what it's capable of doing without needing to think about how it will work for a large team, multiple developers, etc.
 
