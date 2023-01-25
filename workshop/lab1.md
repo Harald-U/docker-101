@@ -100,7 +100,7 @@ Now that we have an image, let's run the application! To do so, we will use the 
    So the ToDo app is listening on port 3000. And in the Dockerfile we specified `EXPOSE 3000` which means we tell Docker the container listens on the specified network port at runtime.
 
 
-2. After a few seconds, open your web browser to http://localhost:3000. You should see our app!
+2. After a few seconds, open your web browser to [http://localhost:3000](http://localhost:3000). You should see our app!
 
    ![Empty Todo List](images/empty-todo-app.png)
 
