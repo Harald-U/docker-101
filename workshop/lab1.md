@@ -39,19 +39,18 @@ In order to build a container image, we need to use a Dockerfile. A Dockerfile i
    What do the lines in the Dockerfile mean?
 
       <dl>
-         <dt>FROM</dt>
-         <dd>This the base image you are building upon. We want to use an image with Node.js version 18 built on Alpine Linux.</dd>
-         <dt>WRKDIR</dt>
-         <dd>This will set the working directory within the container image.</dd>  
-         <dt>COPY<dt>
-         <dd>Copy the source code from your notebook into the container image.</dd>
-         <dt>RUN</dt>
-         <dd>The RUN command will be executed during the BUILD of the container image. 
-         It uses 'yarn' to resolve the Node.js dependencies.</dd>
-         <dt>EXPOSE<dt>
-         <dd>This makes the port your application is using available so that we can connect to it from outside the container.</dd>
-         <dt>CMD</dt>
-         <dd>This is the start command of your application, executed when the container is run.</dd>   
+      <dt>FROM</dt>
+      <dd>This the base image you are building upon. We want to use an image with Node.js version 18 built on Alpine Linux.</dd>
+      <dt>WRKDIR</dt>
+      <dd>This will set the working directory within the container image.</dd>  
+      <dt>COPY<dt>
+      <dd>Copy the source code from your notebook into the container image.</dd>
+      <dt>RUN</dt>
+      <dd>The RUN command will be executed during the BUILD of the container image. It uses 'yarn' to resolve the Node.js dependencies.</dd>
+      <dt>EXPOSE<dt>
+      <dd>This makes the port your application is using available so that we can connect to it from outside the container.</dd>
+      <dt>CMD</dt>
+      <dd>This is the start command of your application, executed when the container is run.</dd>   
       </dl>
 
 2. If you haven't already done so, open a terminal and go to the app directory with the Dockerfile. Now build the container image using the docker build command.
