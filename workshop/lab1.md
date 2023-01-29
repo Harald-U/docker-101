@@ -38,7 +38,7 @@ In order to build a container image, we need to use a Dockerfile. A Dockerfile i
 
    What do the lines in the Dockerfile mean?
 
-      <dl>
+      
       <dt>FROM</dt>
       <dd>This the base image you are building upon. We want to use an image with Node.js version 18 built on Alpine Linux.</dd>
       <dt>WRKDIR</dt>
@@ -51,7 +51,7 @@ In order to build a container image, we need to use a Dockerfile. A Dockerfile i
       <dd>This makes the port your application is using available so that we can connect to it from outside the container.</dd>
       <dt>CMD</dt>
       <dd>This is the start command of your application, executed when the container is run.</dd>   
-      </dl>
+      
 
 2. If you haven't already done so, open a terminal and go to the app directory with the Dockerfile. Now build the container image using the docker build command.
 
