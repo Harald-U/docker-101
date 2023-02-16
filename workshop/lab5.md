@@ -9,6 +9,8 @@ Here is some useful information and best practises for Docker Images and Image B
 
 When you have built an image, it is good practice to scan it for security vulnerabilities using the docker scan command. Docker has partnered with Snyk to provide the vulnerability scanning service.
 
+**Note:** Unfortunately, this feature is only available for registered users, you need to logon with your Docker ID first.
+
 For example, to scan the todo-app image you created earlier in the tutorial, you can just type
 
 ```
