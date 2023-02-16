@@ -82,6 +82,8 @@ We will create a Docker network first and attach the MySQL container at startup.
 
 We have our todos database and it's ready for us to use!
 
+**Type 'exit' to get out the MySQL commandline.**
+
 ## Running our App with MySQL
 
 The todo app supports the setting of a few environment variables to specify MySQL connection settings. They are:
