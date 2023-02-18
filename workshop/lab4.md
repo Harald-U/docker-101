@@ -93,9 +93,9 @@ The todo app supports the setting of a few environment variables to specify MySQ
 * MYSQL_PASSWORD - the password to use for the connection
 * MYSQL_DB - the database to use once connected
 
-**WARNING**
+<!-- **WARNING**
 
-> While using env vars to set connection settings is generally OK for development, it is HIGHLY DISCOURAGED when running applications in production. A more secure mechanism is to use the secret support provided by your container orchestration framework, e.g. Kubernetes.
+> While using env vars to set connection settings is generally OK for development, it is HIGHLY DISCOURAGED when running applications in production. A more secure mechanism is to use the secret support provided by your container orchestration framework, e.g. Kubernetes. -->
 
 With all of that explained, let's start our dev-ready container!
 
