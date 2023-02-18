@@ -56,7 +56,7 @@ We will create a Docker network first and attach the MySQL container at startup.
     docker exec -it mysql mysql -p
     ```
 
-    **Note:** Type `mysql` twice in the command! The first one is the name of the container, the second the name of the MySQL CLI. 
+    **Note:** `docker exec` runs a command in a already running container. You need to type `mysql` twice! The first one is the name of the container to run the command in, the second is the name of the command, the MySQL CLI. The `-p` belongs to the MySQL CLI and prompts for the password. 
 
 2. When the password prompt comes up, type in **secret**. In the MySQL shell, list the databases and verify you see the todos database.
 

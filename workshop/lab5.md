@@ -5,7 +5,7 @@ title: 5. Image Building Best Practises
 
 Here is some useful information and best practises for Docker Images and Image Building.
 
-## Security Scanning
+<!-- ## Security Scanning
 
 When you have built an image, it is good practice to scan it for security vulnerabilities using the docker scan command. Docker has partnered with Snyk to provide the vulnerability scanning service.
 
@@ -34,6 +34,7 @@ Issues with no direct upgrade or patch:
 The output lists the type of vulnerability, a URL to learn more, and importantly which version of the relevant library fixes the vulnerability.
 
 There are several other options, which you can read about in the [docker scan documentation](https://docs.docker.com/engine/scan/).
+-->
 
 ## Image Layering
 
