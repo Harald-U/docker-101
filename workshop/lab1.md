@@ -95,9 +95,9 @@ Now that we have an image, let's run the application! To do so, we will use the 
    
    The second port (after the ':') is the container port. How do we know that the container port is 3000? If you look in file `src/index.js`  you can find this statement:
 
-   ```
-   app.listen(3000, () => console.log('Listening on port 3000'));
-   ```
+   
+   `app.listen(3000, () => console.log('Listening on port 3000'));`
+   
 
    So the ToDo app is listening on port 3000. And in the Dockerfile we specified `EXPOSE 3000` which means we tell Docker the container listens on the specified network port at runtime.
 
