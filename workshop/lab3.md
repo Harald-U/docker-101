@@ -22,11 +22,12 @@ To see this in action, we're going to start two containers and create a file in 
     In case you're curious about the command:
     
     * '--name mycontainer' explicitely sets a specific name instead of using the funny ones (e.g. clever_maxwell)
-    * We are starting a bash shell and invoking two commands (that's why we have the `&&`). The first portion picks a single random number and writes it to `/data.txt`. The second command is simply watching a file to keep the container running.
+    * `ubuntu` pulls the latest Ubuntu image from Docker Hub
+    * In the Ubuntu container we are starting a `bash`` shell and invoking two commands (that's why we have the `&&`). The first portion picks a single random number and writes it to `/data.txt`. The second command is simply watching a file to keep the container running.
 
 2. Validate we can see the output by exec'ing into the container. 
 
-    Use the docker exec command to do the same. Normally, you would need to get the container's ID (use docker ps to get it) but since we gave our container a specific name this is much easier
+    Use the docker exec command to do this. Normally, you would need to get the container's ID (use docker ps to get it) but since we gave our container a specific name this is much easier
 
     ```
     docker exec mycontainer cat /data.txt
@@ -37,10 +38,16 @@ To see this in action, we're going to start two containers and create a file in 
 3. Now start another Ubuntu container (the same image) and we'll see we don't have the same file.
 
     ```
-    docker run --rm -it ubuntu ls /
+    docker run --rm -it ubuntu cat /data.txt
     ```
 
-    There's no data.txt file in the list! That's because it was written to the scratch space for only the first container.
+    will result in
+
+    ```
+    cat: /data.txt: No such file or directory
+    ```
+
+    There's no data.txt file in the containers file system! That's because it was written to the scratch space for only the first container.
 
     Note: 
     * '--rm' instructs Docker to remove the container once it is finished. 

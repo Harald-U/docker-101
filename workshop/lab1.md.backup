@@ -61,13 +61,13 @@ In order to build a container image, we need to use a Dockerfile. A Dockerfile i
    docker build -t todo-app .
    ```
 
-   This command used the Dockerfile to build a new container image. You might have noticed that a lot of "layers" were downloaded. This is because we instructed the builder that we wanted to start FROM the node:18-alpine image. But, since we didn't have that on our machine, that image needed to be downloaded.
+   This command used the Dockerfile to build a new container image. You might have noticed that a lot of "layers" were downloaded. This is because we instructed the builder that we wanted to start FROM the node:12-alpine image. But, since we didn't have that on our machine, that image needed to be downloaded.
 
    After the image was downloaded, we copied in our application and used yarn to install our application's dependencies. The CMD directive specifies the default command to run when starting a container from this image.
 
    Finally, the -t flag 'tags' our image. Think of this simply as a human-readable name for the final image. Since we named the image 'todo-app', we can refer to that image when we run a container.
 
-   Don't forget the . at the end of the docker build command! It tells Docker that it should look for a Dockerfile in the current directory.
+   Don't forget the . at the end of the docker build command! It tells that Docker should look for the Dockerfile in the current directory.
 
 ## Starting an App Container
 
