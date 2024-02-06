@@ -22,8 +22,8 @@ To see this in action, we're going to start two containers and create a file in 
     In case you're curious about the command:
     
     * '--name mycontainer' explicitely sets a specific name instead of using the funny ones (e.g. clever_maxwell)
-    * `ubuntu` pulls the latest Ubuntu image from Docker Hub
-    * In the Ubuntu container we are starting a `bash`` shell and invoking two commands (that's why we have the `&&`). The first portion picks a single random number and writes it to `/data.txt`. The second command is simply watching a file to keep the container running.
+    * `ubuntu` uses the latest Ubuntu image from Docker Hub, downloads if not already present
+    * In the Ubuntu container we are starting a `bash` shell and invoking two commands (that's why we have the `&&`). The first portion picks a single random number (`shuf`) and writes it to `/data.txt`. The second command is simply watching a file to keep the container running.
 
 2. Validate we can see the output by exec'ing into the container. 
 
@@ -51,7 +51,7 @@ To see this in action, we're going to start two containers and create a file in 
 
     Note: 
     * '--rm' instructs Docker to remove the container once it is finished. 
-    * '-it' stands for "interactive, allocate pseudo TTY". Which means the container starts, executes the 'ls /' command, shows its output, and then terminates (and is then removed because of the '--rm').
+    * '-it' stands for "interactive, allocate pseudo TTY". Which means the container starts, executes the 'cat /data.txt' command, shows its output (or rather an error in our case), then terminates (and is then removed because of the '--rm').
 
 4. Go ahead and remove the first container.
 

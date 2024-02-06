@@ -57,23 +57,23 @@ You should get output that looks something like this (dates/IDs may be different
 
 ```
 IMAGE          CREATED          CREATED BY                                      SIZE      COMMENT
-f83833d643ab   18 minutes ago   /bin/sh -c #(nop)  CMD ["node" "src/index.js…   0B        
-06254ea30784   18 minutes ago   /bin/sh -c #(nop)  EXPOSE 3000                  0B        
-8bbf29cc9373   18 minutes ago   /bin/sh -c yarn install --production            83.1MB    
-14606c75b984   18 minutes ago   /bin/sh -c #(nop) COPY dir:da0b6872d8a18c7af…   4.59MB    
-925974a6d06b   18 minutes ago   /bin/sh -c #(nop) WORKDIR /app                  0B        
-264f8646c2a6   20 hours ago     /bin/sh -c #(nop)  CMD ["node"]                 0B        
-<missing>      20 hours ago     /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B        
-<missing>      20 hours ago     /bin/sh -c #(nop) COPY file:4d192565a7220e13…   388B      
-<missing>      20 hours ago     /bin/sh -c apk add --no-cache --virtual .bui…   7.78MB    
-<missing>      20 hours ago     /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.19     0B        
-<missing>      20 hours ago     /bin/sh -c addgroup -g 1000 node     && addu…   158MB     
-<missing>      20 hours ago     /bin/sh -c #(nop)  ENV NODE_VERSION=18.13.0     0B        
-<missing>      22 hours ago     /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B        
-<missing>      22 hours ago     /bin/sh -c #(nop) ADD file:e4d600fc4c9c293ef…   7.05MB    
+2f00d62f2528   24 minutes ago   CMD ["node" "src/index.js"]                     0B        buildkit.dockerfile.v0
+<missing>      24 minutes ago   EXPOSE map[3000/tcp:{}]                         0B        buildkit.dockerfile.v0
+<missing>      24 minutes ago   RUN /bin/sh -c yarn install --production # b…   85.3MB    buildkit.dockerfile.v0
+<missing>      24 minutes ago   COPY . . # buildkit                             4.59MB    buildkit.dockerfile.v0
+<missing>      24 minutes ago   WORKDIR /app                                    0B        buildkit.dockerfile.v0
+<missing>      8 weeks ago      /bin/sh -c #(nop)  CMD ["node"]                 0B        
+<missing>      8 weeks ago      /bin/sh -c #(nop)  ENTRYPOINT ["docker-entry…   0B        
+<missing>      8 weeks ago      /bin/sh -c #(nop) COPY file:4d192565a7220e13…   388B      
+<missing>      8 weeks ago      /bin/sh -c apk add --no-cache --virtual .bui…   7.77MB    
+<missing>      8 weeks ago      /bin/sh -c #(nop)  ENV YARN_VERSION=1.22.19     0B        
+<missing>      8 weeks ago      /bin/sh -c addgroup -g 1000 node     && addu…   117MB     
+<missing>      8 weeks ago      /bin/sh -c #(nop)  ENV NODE_VERSION=18.19.0     0B        
+<missing>      2 months ago     /bin/sh -c #(nop)  CMD ["/bin/sh"]              0B        
+<missing>      2 months ago     /bin/sh -c #(nop) ADD file:1f4eb46669b5b6275…   7.38MB    
 ```
 
-Each of the lines represents a layer in the image. The display here shows the layers that are part of the base image (`FROM node:18-alpine`) at the bottom (the lines where IMAGE is missing plus IMAGE=1b156b4c3ee8) and the newest layer at the top. Using this, you can also quickly see the size of each layer, helping diagnose large images.
+Each of the lines represents a layer in the image. The display here shows the layers that are part of the base image (`FROM node:18-alpine`) at the bottom (the lines where IMAGE is missing and that are created 2 months or 8 weeks ago) and the newest layer at the top (created 24 minutes ago). Using this, you can also quickly see the size of each layer, helping diagnose large images.
 
 ## Layer Caching
 
