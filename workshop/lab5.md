@@ -131,37 +131,23 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
     You should see output like this...
 
         ```
-        Sending build context to Docker daemon  4.627MB
-        Step 1/7 : FROM node:18-alpine
-        ---> 264f8646c2a6
-        Step 2/7 : WORKDIR /app
-        ---> Running in 3287e6a1e4ca
-        Removing intermediate container 3287e6a1e4ca
-        ---> 0306daa9d08b
-        Step 3/7 : COPY package.json yarn.lock ./
-        ---> df2c0268bbd1
-        Step 4/7 : RUN yarn install --production
-        ---> Running in 57b23736ac32
-        yarn install v1.22.19
-        [1/4] Resolving packages...
-        [2/4] Fetching packages...
-        [3/4] Linking dependencies...
-        [4/4] Building fresh packages...
-        Done in 8.66s.
-        Removing intermediate container 57b23736ac32
-        ---> fae900ada624
-        Step 5/7 : EXPOSE 3000
-        ---> Running in 6bb086664e87
-        Removing intermediate container 6bb086664e87
-        ---> ba79f0f5240c
-        Step 6/7 : COPY . .
-        ---> 05d475752165
-        Step 7/7 : CMD ["node", "src/index.js"]
-        ---> Running in 3759e7651705
-        Removing intermediate container 3759e7651705
-        ---> a8986c16ade2
-        Successfully built a8986c16ade2
-        Successfully tagged todo-app:latest
+        [+] Building 9.0s (10/10) FINISHED                                                                             docker:default
+        => [internal] load build definition from Dockerfile                                                           0.0s
+        => => transferring dockerfile: 183B                                                                           0.0s
+        => [internal] load metadata for docker.io/library/node:18-alpine                                              0.0s
+        => [internal] load .dockerignore                                                                              0.0s
+        => => transferring context: 54B                                                                               0.0s
+        => [1/5] FROM docker.io/library/node:18-alpine                                                                0.0s
+        => [internal] load build context                                                                              0.1s
+        => => transferring context: 2.85kB                                                                            0.1s
+        => CACHED [2/5] WORKDIR /app                                                                                  0.0s
+        => [3/5] COPY package.json yarn.lock ./                                                                       0.0s
+        => [4/5] RUN yarn install --production                                                                        8.2s
+        => [5/5] COPY . .                                                                                             0.1s 
+        => exporting to image                                                                                         0.6s 
+        => => exporting layers                                                                                        0.6s 
+        => => writing image sha256:c150598f61853d4c86c423adcc920f655b23051560a5c3800c63c074d45aa6d5                   0.0s 
+        => => naming to docker.io/library/todo-app                                   
         ```
 
     You'll see that most layers were rebuilt. Perfectly fine since we changed the Dockerfile quite a bit. 
@@ -171,32 +157,26 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 5. Rebuild the Docker image again using `docker build -t todo-app .` again. This time, your output should look a little different.
 
         ```
-        Sending build context to Docker daemon  4.627MB
-        Step 1/7 : FROM node:18-alpine
-        ---> 264f8646c2a6
-        Step 2/7 : WORKDIR /app
-        ---> Using cache
-        ---> 0306daa9d08b
-        Step 3/7 : COPY package.json yarn.lock ./
-        ---> Using cache
-        ---> df2c0268bbd1
-        Step 4/7 : RUN yarn install --production
-        ---> Using cache
-        ---> fae900ada624
-        Step 5/7 : EXPOSE 3000
-        ---> Using cache
-        ---> ba79f0f5240c
-        Step 6/7 : COPY . .
-        ---> 9eedfc1f1b94
-        Step 7/7 : CMD ["node", "src/index.js"]
-        ---> Running in 7749575f18ea
-        Removing intermediate container 7749575f18ea
-        ---> e7170dba85e3
-        Successfully built e7170dba85e3
-        Successfully tagged todo-app:latest
+        [+] Building 0.2s (10/10) FINISHED                                                                             docker:default
+        => [internal] load build definition from Dockerfile                                                           0.0s
+        => => transferring dockerfile: 183B                                                                           0.0s
+        => [internal] load metadata for docker.io/library/node:18-alpine                                              0.0s
+        => [internal] load .dockerignore                                                                              0.0s
+        => => transferring context: 54B                                                                               0.0s
+        => [1/5] FROM docker.io/library/node:18-alpine                                                                0.0s
+        => [internal] load build context                                                                              0.1s
+        => => transferring context: 3.48kB                                                                            0.1s
+        => CACHED [2/5] WORKDIR /app                                                                                  0.0s
+        => CACHED [3/5] COPY package.json yarn.lock ./                                                                0.0s
+        => CACHED [4/5] RUN yarn install --production                                                                 0.0s
+        => [5/5] COPY . .                                                                                             0.0s
+        => exporting to image                                                                                         0.0s
+        => => exporting layers                                                                                        0.0s
+        => => writing image sha256:b67d89be99c1317c4355440b51cdd28697998c5b0335d6396f0db01c30235674                   0.0s
+        => => naming to docker.io/library/todo-app        
         ```
 
-    First off, you should notice that the build was MUCH faster! And, you'll see that steps 2 - 5 all have 'Using cache'. So we are using the build cache. Pushing and pulling this image and updates to it will be much faster as well. 
+    First off, you should notice that the build was MUCH faster (0.2 s vs. 9.0 s)! And, you'll see that steps 2,3, and 4 all have been CACHED. So we are using the build cache. Pushing and pulling this image and updates to it will be much faster as well. 
 
 ## Multi-Stage Builds
 
