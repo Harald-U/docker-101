@@ -1,6 +1,6 @@
 theme: jekyll-theme-minimal
 title: Docker 101
-updated: 19.2.2024
+updated: 27.3.2024
 logo: assets/img/docker-logo.png
 show_downloads: False
 navigation:
@@ -16,7 +16,9 @@ navigation:
     url: workshop/lab4
   - title: 5. Image Building Best Practises
     url: workshop/lab5
-  - title: 6. Tips and useful commands
-    url: workshop/lab6    
+  - title: 6. Docker Compose
+    url: workshop/lab6 
+  - title: 7. Tips and useful commands
+    url: workshop/lab7    
 
 

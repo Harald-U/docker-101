@@ -1,87 +1,186 @@
 ---
 layout: default
-title: 6. Tips and useful commands
+title: 6. Docker Compose
 ---
 
-## Commands
+**Docker Compose** is a tool for defining and running multi-container applications (workloads). Compose simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
 
-Here are some additional very useful commands.
+Docker Compose relies on a YAML configuration file, usually named `docker-compose.yaml`. The `docker-compose.yaml` file follows the rules provided by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) in how to define multi-container applications.
 
-### Images
+Docker Compose is part of Docker Desktop (for Mac, Windows, Linux). If you are using docker-ce on Linux, you may need to install docker-compose manually. refer to your distribution on how to do this.
 
-List all images downloaded from Docker Hub (or other repositories) and created by `docker build` locally:
+In our ToDo example in this workshop, using docker-compose actually makes sense:
 
-```
-docker image ls
-```
+- We have to create two services
+- Both services require environment variables for configuration
+- One of the services requires a volume to store data persistent
+- We need a network for the services to communicate with each other
 
-If you are busy making changes to your application and rebuilding images, you may get "dangling images":
+Instead of using two Dockerfiles and several commands we can use docker-compose and a single configuration file `docker-compose.yaml`. 
 
-```
-REPOSITORY                    TAG            IMAGE ID       CREATED          SIZE
-todo-app                      latest         72b0060cd278   18 minutes ago   404MB
-<none>                        <none>         8c27584a6af2   19 minutes ago   458MB
-<none>                        <none>         aeecef657347   20 minutes ago   458MB
-<none>                        <none>         f78b96b14576   6 hours ago      456MB
-<none>                        <none>         a3381a63e121   7 hours ago      456MB
-<none>                        <none>         a75fc08aebfa   24 hours ago     456MB
-```
+## Structure of docker-compose.yaml
 
-Name and Tag of dangling images are `<none>`. To get rid of them from time to time simply run:
+The following picture compares a `docker run`command for the ToDo app on the left with a `docker-compose.yaml`file on the right:
 
-```
-docker image prune
-```
+![comaprison 1](images/docker-compose1.png)
 
-You can get rid of specific container image using:
+* A container in Docker Compose is called a service, hence the yaml file must begin with the `services:` statement.
+* The service name `todo`(2) is equivalent to the `--name` tag in `docker run`, it will provide a name for the running container *.
+* The ports of `-p`(3) will go in the `ports:` section (4)
+* One or more environment variables (5) will go in the `environment:` section (6)
+* The last parameter of the `docker run`command is always the name of the container image (7), this will go into the `image` section (8) 
 
-```
-docker image rm <IMAGE ID>
-```
+*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. You can specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element).
 
-If the image is used by a container, Docker will not remove it.
+Now we will add the MySQL container.
 
-### Networks
+Again the `docker run`command for MySQL on the left, on the right we add to the `docker-compose.yaml`:
 
-In Lab 4 ('Add MySQL DB, Multi-Container apps') we added a Docker network. To display all networks, use:
+![comparison 2](images/docker-compose2.png)
 
-```
-docker network ls
-```
+* `--name`tag (1) will become the name of the service `mysql` (2)
+* environment definitions (3) into `environment:` (4)
+* image name (5) into `image:` section (6)
+* `-v`(7) specified a volume in `docker run`, there is an equivalent `volumes:` section (8)
+* Volumes must be defined in `docker-compose.yaml`in a additional `volumes:` section which is on the same YAML level as `services:` (9)
 
-To delete a specific network (e.g. the todo-app network from Lab 4), issue:
+You may have noticed that there is no `network`defined, Docker Compose will automatically create a network for us. Also `network-alias`is not required for MySQL, every service automatically has a unique network name based on its service name, the todo container can connect to the mysql container with its name `mysql`.
+
+You now start the workload with
 
 ```
-docker network rm todo-app
+docker-compose up
 ```
 
-### Volumes
+This connad will log all kind of messages to the console.
 
-And, very similar, for volumes:
-
-```
-docker volume ls
-```
-
-Delete a specific volume:
+Docker Compose will pull images as needed, then it will create a network, a volume, and two containers:
 
 ```
-docker volume rm <volume name>
+✔ Network app_default           Created
+✔ Volume "app_todo-mysql-data"  Created  
+✔ Container app-todo-1          Created 
+✔ Container app-mysql-1         Created
 ```
 
-To get rid of all unused volumes:
+You can check with `docker network ls` that there is really a network called `app_default`, and with `docker volume ls` if the volume exists.
+
+## Dependencies
+
+If for some reason the creation of the mysql service takes longer than the creation of the todo service (for example because of an initial pull of the MySQL image), the todo service will fail:
 
 ```
-docker volume prune
+todo-1   | Waiting for mysql:3306............
+todo-1   | Timeout
+todo-1   | Error: connect ECONNREFUSED 172.21.0.3:3306
 ```
 
+In This example the ToDo app tries to connect to MySQL but the mysql service is not fully started. To prevent this you can create dependencies in the `docker-compose.yaml` by adding a `depends_on`statement to the todo service definition:
 
-## Tools
+```
+services:
+  todo:
+    image: todo-app
+    depends_on: 
+      - mysql
+    ports:
+      - 3000:3000
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
 
-And here is a useful tool, specifically for Linux users since there is no graphical Docker Desktop but it works on Mac and Windows, too. It is called Lazydocker.
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
 
-You can find more information about it [here](https://github.com/jesseduffield/lazydocker/blob/master/README.md).
+volumes:
+  todo-mysql-data:
+```
 
-![Lazydocker](images/Lazydocker.png)
+With this definition added the mysql service will start first and the the todo service. Mission accomplished.
 
-There are other, similar tools, e.g. [Portainer](https://github.com/portainer/portainer)
+## Starting and Stopping
+
+If you started your workload with `docker-compose up`, you will see all output of Compose and the containers in the shell. You can stop the workload with `Ctl-c` or `Cmd-c`. This will result in stopped containers (check with `docker ps -a`).
+
+You can remove the stopped containers with:
+
+```
+docker-compose rm
+```
+
+You can start your workload **daemonized** in the background using
+
+```
+docker-compose up -d
+```
+
+This will show two containers starting:
+
+```
+✔ Container app-mysql-1  Started
+✔ Container app-todo-1 
+```
+
+To stop the workload, issue this command:
+
+```
+docker-compose down
+```
+
+This will stop and remove the containers **and** remove the network, too.
+
+## Building container images
+
+Docker Compose can also build container images. Simply add a `build:` statement to `docker-compose.yaml`. Here is example for the ToDo app, this assumes that the `Dockerfile` is in the same directory as `docker-compose.yaml`:
+
+```
+services:
+  todo:
+    build: .
+    image: todo-app
+    depends_on: 
+      - mysql
+    ports:
+      - 3000:3000
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: todos
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: todos
+
+volumes:
+  todo-mysql-data:
+```
+
+Note the '.' in the `build:` statement, this is the same period you would use at the end of a `docker build` command.
+
+You can now either run a build by itself with:
+
+```
+docker-compose build
+```
+
+or include a build in the startup if required with:
+
+```
+docker-compose up --build
+```
+----
+
+
+**Last Topic:** [Tips and useful commands](lab7.md) 

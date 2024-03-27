@@ -228,4 +228,4 @@ By understanding a little bit about how images are structured, we can build imag
 
 ---
 
-**Last Topic:** [Tips and useful commands](lab6.md) 
+**Next Step:** [Docker Compose](lab6.md)
