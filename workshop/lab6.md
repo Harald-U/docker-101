@@ -75,9 +75,11 @@ todo-1   | Timeout
 todo-1   | Error: connect ECONNREFUSED 172.21.0.3:3306
 ```
 
-In This example the ToDo app tries to connect to MySQL but the mysql service is not fully started. To prevent this you can create dependencies in the `docker-compose.yaml` by adding a `depends_on`statement to the todo service definition:
+In this example log the ToDo app tried to connect to MySQL but the mysql service was not fully started. To prevent this you can create dependencies in the `docker-compose.yaml` by adding a `depends_on` statement to the todo service definition:
 
 ```
+name: docker101
+
 services:
   todo:
     image: todo-app
@@ -103,7 +105,7 @@ volumes:
   todo-mysql-data:
 ```
 
-With this definition added the mysql service will start first and the the todo service. Mission accomplished.
+With this definition added the mysql service will start first and then the todo service. Mission accomplished.
 
 ## Starting and Stopping
 
@@ -136,11 +138,22 @@ docker-compose down
 
 This will stop and remove the containers **and** remove the network, too.
 
+To see the logs of your containers, enter:
+
+```
+docker-compose logs [-f]
+```
+
+The optional `-f` (= follow) allows the log viewer to remain open and 'follow' the log messages as they come in. 
+
+
 ## Building container images
 
 Docker Compose can also build container images. Simply add a `build:` statement to `docker-compose.yaml`. Here is example for the ToDo app, this assumes that the `Dockerfile` is in the same directory as `docker-compose.yaml`:
 
 ```
+name: docker101
+
 services:
   todo:
     build: .
@@ -181,6 +194,6 @@ or include a build in the startup if required with:
 docker-compose up --build
 ```
 ----
-
+**Congratulations!** This concludes the workshop! You may want to have a look at the last topic:
 
 **Last Topic:** [Tips and useful commands](lab7.md) 

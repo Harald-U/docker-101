@@ -224,7 +224,7 @@ Here, we are using a `node:12` image to perform the build (maximizing layer cach
 
 By understanding a little bit about how images are structured, we can build images faster and ship fewer changes. Multi-stage builds help us reduce overall image size and increase final container security by separating build-time dependencies from runtime dependencies.    
 
-**Congratulations!** This concludes the workshop! You may want to have a looks at the last topic:
+
 
 ---
 
