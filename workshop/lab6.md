@@ -9,30 +9,30 @@ The term 'service' is new in the context of this workshop: a service is a buildi
 
 Docker Compose relies on a YAML configuration file, usually named `docker-compose.yaml`. The `docker-compose.yaml` file follows the rules provided by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) in how to define multi-container applications.
 
-Docker Compose is part of Docker Desktop (for Mac, Windows, Linux). If you are using docker-ce on Linux, you may need to install docker-compose manually. refer to your distribution on how to do this.
+Docker Compose is part of Docker Desktop (for Mac, Windows, Linux). If you are using docker-ce on Linux, you may need to install docker-compose manually, refer to your distribution on how to do this.
 
 In our ToDo example in this workshop, using docker-compose actually makes sense:
 
-- We have two containers, ToDo and MySQL, that means we need to create two services
+- We have two containers, ToDo app and MySQL, that means we need to create two services
 - Both services require environment variables for configuration
-- One of the services requires a volume to store data persistent
+- One of the services requires a volume to persistently store data 
 - We need a network for the services to communicate with each other
 
-Instead of using several commands we can use docker-compose and a single configuration file `docker-compose.yaml`. 
+Instead of using several docker commands we can use docker-compose and a single configuration file `docker-compose.yaml`. 
 
 ## Structure of docker-compose.yaml
 
-The following picture compares a `docker run`command for the ToDo app on the left with a `docker-compose.yaml`file on the right:
+The following picture compares a `docker run` command for the ToDo app on the left with a `docker-compose.yaml` file on the right:
 
 ![comaprison 1](images/docker-compose1.png)
 
 * A container in Docker Compose is called a service, hence the yaml file must begin with the `services:` statement.
-* The service name `todo`(2) is equivalent to the `--name` tag in `docker run`, it will provide a name for the running container *.
+* The service name `todo`(2) is equivalent to the `--name` tag (1) in `docker run`, it will provide a name for the running container *.
 * The ports of `-p`(3) will go in the `ports:` section (4)
 * One or more environment variables (5) will go in the `environment:` section (6)
-* The last parameter of the `docker run`command is always the name of the container image (7), this will go into the `image` section (8) 
+* The last parameter of the `docker run` command is always the name of the container image (7), this will go into the `image` section (8) 
 
-*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. You can specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element).
+*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. You can specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element). 
 
 Now we will add the MySQL container.
 
@@ -40,13 +40,13 @@ Again the `docker run`command for MySQL on the left, on the right we add to the 
 
 ![comparison 2](images/docker-compose2.png)
 
-* `--name`tag (1) will become the name of the service `mysql` (2)
-* environment definitions (3) into `environment:` (4)
+* `--name` tag (1) will become the name of the service `mysql` (2)
+* environment definitions (3) into `environment:` section (4)
 * image name (5) into `image:` section (6)
 * `-v`(7) specified a volume in `docker run`, there is an equivalent `volumes:` section (8)
-* Volumes must be defined in `docker-compose.yaml`in a additional `volumes:` section which is on the same YAML level as `services:` (9)
+* Volumes must be defined in `docker-compose.yaml` in a additional `volumes:` section which is on the same YAML indent level as `services:` (9)
 
-You may have noticed that there is no `network`defined, Docker Compose will automatically create a network for us. Also `network-alias`is not required for MySQL, every service automatically has a unique network name based on its service name, the todo container can connect to the mysql container with its name `mysql`.
+You may have noticed that there is no `network` defined, Docker Compose will automatically create a network for us. Also `network-alias` is not required for MySQL, every service automatically has a unique network name based on its service name, the todo container can connect to the mysql container with its name `mysql`.
 
 You now start the workload with
 
@@ -111,7 +111,13 @@ With this definition added, the mysql service will start first and then the todo
 
 ## Starting and Stopping
 
-If you started your workload with `docker-compose up`, you will see all output of Compose and the containers in the shell. You can stop the workload with `Ctl-c` or `Cmd-c`. This will result in stopped containers (check with `docker ps -a`).
+If you started your workload with 
+
+```
+docker-compose up
+```
+
+you will see all output of Compose and the containers in the shell. You can stop the workload with `Ctl-c` or `Cmd-c`. This will result in stopped containers (check with `docker ps -a`).
 
 You can remove the stopped containers with:
 
@@ -129,7 +135,7 @@ This will show two containers starting:
 
 ```
 ✔ Container app-mysql-1  Started
-✔ Container app-todo-1 
+✔ Container app-todo-1  Started 
 ```
 
 To stop the workload, issue this command:
@@ -211,7 +217,7 @@ MYSQL_ROOT_PASSWORD: secret
 MYSQL_DATABASE: todos
 ```
 
-Notice that MYSQL_PASSWORD and MYSQL_ROOT_PASSWORD as well as MYSQL_DB and MYSQL_DATABASE are duplicates. We could shorten the .env to:
+Notice that MYSQL_PASSWORD and MYSQL_ROOT_PASSWORD as well as MYSQL_DB and MYSQL_DATABASE are duplicates. We can shorten the .env to:
 
 ```
 MYSQL_HOST: mysql
@@ -220,7 +226,7 @@ MYSQL_PASSWORD: secret
 MYSQL_DB: todos
 ```
 
-The .env file should be in the same directory as the docker-compose.yaml file. The docker-compose.yaml is then adapted to use the .env file:
+The .env file usually is in the same directory as the docker-compose.yaml file. The docker-compose.yaml is then adapted to use the .env file:
 
 ```
 name: docker101
@@ -253,7 +259,7 @@ volumes:
 
 When you issue a `docker-compose up` the .env is automatically read and the placeholders in the docker-compose.yaml are replaced with the values of variables in .env.
 
-There are more possibilities with environement variables and .env files in the [Docker documentation](https://docs.docker.com/compose/environment-variables/set-environment-variables/).
+There are more possibilities with environment variables and .env files in the [Docker documentation](https://docs.docker.com/compose/environment-variables/set-environment-variables/).
 
 ----
 **Congratulations!** This concludes the workshop! You may want to have a look at the last topic:
