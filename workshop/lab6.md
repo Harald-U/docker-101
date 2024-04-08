@@ -5,18 +5,20 @@ title: 6. Docker Compose
 
 **Docker Compose** is a tool for defining and running multi-container applications (workloads). Compose simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
 
+The term 'service' is new in the context of this workshop: a service is a building block in a Docker Compose application, it is an abstraction layer over a Docker container. A Docker Compose application is typically made up of more than one service or container.
+
 Docker Compose relies on a YAML configuration file, usually named `docker-compose.yaml`. The `docker-compose.yaml` file follows the rules provided by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) in how to define multi-container applications.
 
 Docker Compose is part of Docker Desktop (for Mac, Windows, Linux). If you are using docker-ce on Linux, you may need to install docker-compose manually. refer to your distribution on how to do this.
 
 In our ToDo example in this workshop, using docker-compose actually makes sense:
 
-- We have to create two services
+- We have two containers, ToDo and MySQL, that means we need to create two services
 - Both services require environment variables for configuration
 - One of the services requires a volume to store data persistent
 - We need a network for the services to communicate with each other
 
-Instead of using two Dockerfiles and several commands we can use docker-compose and a single configuration file `docker-compose.yaml`. 
+Instead of using several commands we can use docker-compose and a single configuration file `docker-compose.yaml`. 
 
 ## Structure of docker-compose.yaml
 
@@ -105,7 +107,7 @@ volumes:
   todo-mysql-data:
 ```
 
-With this definition added the mysql service will start first and then the todo service. Mission accomplished.
+With this definition added, the mysql service will start first and then the todo service. Mission accomplished.
 
 ## Starting and Stopping
 
@@ -136,7 +138,7 @@ To stop the workload, issue this command:
 docker-compose down
 ```
 
-This will stop and remove the containers **and** remove the network, too.
+This will stop and remove the containers **and** remove the network, too. Of course, the volume isn't removed! 
 
 To see the logs of your containers, enter:
 
@@ -193,6 +195,66 @@ or include a build in the startup if required with:
 ```
 docker-compose up --build
 ```
+
+## Environment variables
+
+In the above example we specified the environment variables directly in the docker-compose.yaml. It is preferable to 'externalize' the configuration (12 Factors!) and this is very easy with Docker Compose. 
+
+It is common practice to specify environment variables in file that is typically called `.env` (and spelled "Dotenv"). For probably every programming language there are libraries/extensions that automatically read a .env file if it is present, in Python it is called 'python-dotenv'. A .env file for our example would look like this:
+
+```
+MYSQL_HOST: mysql
+MYSQL_USER: root
+MYSQL_PASSWORD: secret
+MYSQL_DB: todos
+MYSQL_ROOT_PASSWORD: secret
+MYSQL_DATABASE: todos
+```
+
+Notice that MYSQL_PASSWORD and MYSQL_ROOT_PASSWORD as well as MYSQL_DB and MYSQL_DATABASE are duplicates. We could shorten the .env to:
+
+```
+MYSQL_HOST: mysql
+MYSQL_USER: root
+MYSQL_PASSWORD: secret
+MYSQL_DB: todos
+```
+
+The .env file should be in the same directory as the docker-compose.yaml file. The docker-compose.yaml is then adapted to use the .env file:
+
+```
+name: docker101
+
+services:
+  todo:
+    build: .
+    image: todo-app
+    depends_on: 
+      - mysql
+    ports:
+      - 3000:3000
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DB: ${MYSQL_DB}
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DB}
+
+volumes:
+  todo-mysql-data:
+```
+
+When you issue a `docker-compose up` the .env is automatically read and the placeholders in the docker-compose.yaml are replaced with the values of variables in .env.
+
+There are more possibilities with environement variables and .env files in the [Docker documentation](https://docs.docker.com/compose/environment-variables/set-environment-variables/).
+
 ----
 **Congratulations!** This concludes the workshop! You may want to have a look at the last topic:
 
