@@ -50,8 +50,8 @@ To see this in action, we're going to start two containers and create a file in 
     There's no data.txt file in the containers file system! That's because it was written to the scratch space for only the first container.
 
     Note: 
-    * '--rm' instructs Docker to remove the container once it is finished. 
-    * '-it' stands for "interactive, allocate pseudo TTY". Which means the container starts, executes the 'cat /data.txt' command, shows its output (or rather an error in our case), then terminates (and is then removed because of the '--rm').
+    * `--rm` instructs Docker to remove the container once it is finished. 
+    * `-it` stands for "interactive, allocate pseudo TTY". Which means the container starts, executes the 'cat /data.txt' command, shows its output (or rather an error in our case), then terminates (and is then removed because of the '--rm').
 
 4. Go ahead and remove the first container.
 
@@ -114,14 +114,17 @@ A lot of people frequently ask "Where is Docker actually storing my data when I 
 
 ```
 docker volume inspect todo-db
+```
+
+```
 [
     {
         "CreatedAt": "2022-04-03T12:27:44+02:00",
         "Driver": "local",
-        "Labels": {},
+        "Labels": null,
         "Mountpoint": "/var/lib/docker/volumes/todo-db/_data",
         "Name": "todo-db",
-        "Options": {},
+        "Options": null,
         "Scope": "local"
     }
 ]

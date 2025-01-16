@@ -118,8 +118,6 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 
     `.dockerignore` files are an easy way to selectively copy only image relevant files. You can read more about this [here](https://docs.docker.com/engine/reference/builder/#dockerignore-file). In this case, the local `node_modules` folder should be omitted in the second `COPY` step because otherwise, it would possibly overwrite files which were created by the command in the RUN step. 
     
-    For further details on why this is recommended for Node.js applications and other best practices, have a look at their guide on [Dockerizing a Node.js web app](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/).
-
     If you develop in Python, I found this [blog](https://www.docker.com/blog/containerized-python-development-part-1/) for you.
 
 3. Build a new image.

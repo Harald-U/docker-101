@@ -18,7 +18,7 @@ In our ToDo example in this workshop, using docker-compose actually makes sense:
 - One of the services requires a volume to persistently store data 
 - We need a network for the services to communicate with each other
 
-Instead of using several docker commands we can use docker-compose and a single configuration file `docker-compose.yaml`. 
+Instead of using several docker commands we can use docker-compose and a single configuration file `docker-compose.yaml`. (There is a sample docker-compose.yaml file in the app directory.)
 
 ## Structure of docker-compose.yaml
 

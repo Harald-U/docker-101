@@ -79,7 +79,7 @@ Now that we have an image, let's run the application! To do so, we will use the 
 1. Start your container using the docker run command and specify the name of the image we just created:
 
    ```
-   docker run -dp 3000:3000 todo-app
+   docker run -d -p 3000:3000 todo-app
    ```
 
    What are the -d and -p flags?
