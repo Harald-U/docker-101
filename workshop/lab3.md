@@ -66,11 +66,11 @@ To see this in action, we're going to start two containers and create a file in 
 
 With the previous experiment, we saw that each container starts from the image definition each time it starts. While containers can create, update, and delete files, those changes are lost when the container is removed and all changes are isolated to that container. With volumes, we can change all of this.
 
-[Volumes](https://docs.docker.com/storage/volumes/) provide the ability to connect specific filesystem paths of the container back to the host machine. If a directory in the container is mounted, changes in that directory are also seen on the host machine. If we mount that same directory across container restarts, we'd see the same files.
+[Volumes](https://docs.docker.com/storage/volumes/){:target="_blank"} provide the ability to connect specific filesystem paths of the container back to the host machine. If a directory in the container is mounted, changes in that directory are also seen on the host machine. If we mount that same directory across container restarts, we'd see the same files.
 
 ## Persisting the Todo Data
 
-By default, the todo app stores its data in a [SQLite Database](https://www.sqlite.org/index.html) at /etc/todos/todo.db. If you're not familiar with SQLite, no worries! It is a simple a relational database in which all of the data is stored in a single file. While this isn't the best for large-scale applications, it works for small demos. We'll talk about switching this to a different database engine later.
+By default, the todo app stores its data in a [SQLite Database](https://www.sqlite.org/index.html){:target="_blank"} at /etc/todos/todo.db. If you're not familiar with SQLite, no worries! It is a simple a relational database in which all of the data is stored in a single file. While this isn't the best for large-scale applications, it works for small demos. We'll talk about switching this to a different database engine later.
 
 With the database being a single file, if we can persist that file on the host and make it available to the next container, it should be able to pick up where the last one left off. By creating a volume and attaching (often called "mounting") it to the directory the data is stored in, we can persist the data. As our container writes to the todo db file, it will be persisted to the host in the volume.
 

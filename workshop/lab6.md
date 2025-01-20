@@ -7,7 +7,7 @@ title: 6. Docker Compose
 
 The term 'service' is new in the context of this workshop: a service is a building block in a Docker Compose application, it is an abstraction layer over a Docker container. A Docker Compose application is typically made up of more than one service or container.
 
-Docker Compose relies on a YAML configuration file, usually named `docker-compose.yaml`. The `docker-compose.yaml` file follows the rules provided by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md) in how to define multi-container applications.
+Docker Compose relies on a YAML configuration file, usually named `docker-compose.yaml`. The `docker-compose.yaml` file follows the rules provided by the [Compose Specification](https://github.com/compose-spec/compose-spec/blob/master/spec.md){:target="_blank"} in how to define multi-container applications.
 
 Docker Compose is part of Docker Desktop (for Mac, Windows, Linux). If you are using docker-ce on Linux, you may need to install docker-compose manually, refer to your distribution on how to do this.
 
@@ -32,7 +32,7 @@ The following picture compares a `docker run` command for the ToDo app on the le
 * One or more environment variables (5) will go in the `environment:` section (6)
 * The last parameter of the `docker run` command is always the name of the container image (7), this will go into the `image` section (8) 
 
-*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. You can specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element). 
+*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. You can specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element){:target="_blank"}. 
 
 Now we will add the MySQL container.
 
@@ -259,7 +259,7 @@ volumes:
 
 When you issue a `docker-compose up` the .env is automatically read and the placeholders in the docker-compose.yaml are replaced with the values of variables in .env.
 
-There are more possibilities with environment variables and .env files in the [Docker documentation](https://docs.docker.com/compose/environment-variables/set-environment-variables/).
+There are more possibilities with environment variables and .env files in the [Docker documentation](https://docs.docker.com/compose/environment-variables/set-environment-variables/){:target="_blank"}.
 
 ----
 **Congratulations!** This concludes the workshop! You may want to have a look at the last topic:

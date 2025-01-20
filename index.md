@@ -3,9 +3,9 @@ layout: default
 title: Overview
 ---
 
-This workshop is based on the [Docker 101 Tutorial](https://www.docker.com/101-tutorial/), created by Docker and others. I wanted to focus on different aspects hence the fork. 
+This workshop is based on the [Docker 101 Tutorial](https://www.docker.com/101-tutorial/){:target="_blank"}, created by Docker and others. I wanted to focus on different aspects hence the fork. 
 
-For this workhop I used the original Docker 101 Todo app and a great deal of the original texts from the [Docker 101 Github repo](https://github.com/docker/getting-started). A big thanks to Docker. Inc. for placing their work under an Apache 2.0 license.
+For this workhop I used the original Docker 101 Todo app and a great deal of the original texts from the [Docker 101 Github repo](https://github.com/docker/getting-started){:target="_blank"}. A big thanks to Docker. Inc. for placing their work under an Apache 2.0 license.
 
 ## Objectives
 
@@ -19,8 +19,8 @@ In this workshop, you will learn some Docker or Container basics, like:
 
 ## Prerequisites
 
-* [git](https://git-scm.com/downloads)
-* [Docker](https://docs.docker.com/desktop/)
+* [git](https://git-scm.com/downloads){:target="_blank"}
+* [Docker](https://docs.docker.com/desktop/){:target="_blank"}
 
 Docker can be Docker CE for Linux or Docker Desktop for Mac, Windows, or Linux. We will not cover installation of Docker (Desktop) in this workshop.  
 

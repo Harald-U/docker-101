@@ -43,7 +43,7 @@ There are several other options, which you can read about in the [docker scan do
 * Each layer except the very last one is read-only. 
 * Each layer is only a set of differences from the layer before it. Note that both adding, and removing files will result in a new layer.
 * The layers are stacked on top of each other. 
-* A method called [union mounting](https://en.wikipedia.org/wiki/Union_mount) is used to combine these layers into one filesystem.
+* A method called [union mounting](https://en.wikipedia.org/wiki/Union_mount){:target="_blank"} is used to combine these layers into one filesystem.
 
 You can look at what makes up an image using the `docker image history` command. You can see the instruction that was used to create each layer within an image.
 
@@ -116,9 +116,9 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
    node_modules
    ```
 
-    `.dockerignore` files are an easy way to selectively copy only image relevant files. You can read more about this [here](https://docs.docker.com/engine/reference/builder/#dockerignore-file). In this case, the local `node_modules` folder should be omitted in the second `COPY` step because otherwise, it would possibly overwrite files which were created by the command in the RUN step. 
+    `.dockerignore` files are an easy way to selectively copy only image relevant files. You can read more about this [here](https://docs.docker.com/engine/reference/builder/#dockerignore-file){:target="_blank"}. In this case, the local `node_modules` folder should be omitted in the second `COPY` step because otherwise, it would possibly overwrite files which were created by the command in the RUN step. 
     
-    If you develop in Python, I found this [blog](https://www.docker.com/blog/containerized-python-development-part-1/) for you.
+    If you develop in Python, I found this [blog](https://www.docker.com/blog/containerized-python-development-part-1/){:target="_blank"} for you.
 
 3. Build a new image.
 
@@ -220,7 +220,7 @@ Here, we are using a `node:12` image to perform the build (maximizing layer cach
 
 ## Recap
 
-By understanding a little bit about how images are structured, we can build images faster and ship fewer changes. Multi-stage builds help us reduce overall image size and increase final container security by separating build-time dependencies from runtime dependencies.    
+By understanding a little bit about how images are structured, we can build images faster and ship fewer changes. Multi-stage builds help us reduce overall image size and increase final container security by separating build-time dependencies from runtime dependencies. 
 
 
 

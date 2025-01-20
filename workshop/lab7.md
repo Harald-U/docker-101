@@ -80,8 +80,8 @@ docker volume prune
 
 And here is a useful tool, specifically for Linux users since there is no graphical Docker Desktop but it works on Mac and Windows, too. It is called Lazydocker.
 
-You can find more information about it [here](https://github.com/jesseduffield/lazydocker/blob/master/README.md).
+You can find more information about it [here](https://github.com/jesseduffield/lazydocker/blob/master/README.md){:target="_blank"}.
 
 ![Lazydocker](images/Lazydocker.png)
 
-There are other, similar tools, e.g. [Portainer](https://github.com/portainer/portainer)
+There are other, similar tools, e.g. [Portainer](https://github.com/portainer/portainer){:target="_blank"}.
