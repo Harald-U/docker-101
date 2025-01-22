@@ -3,6 +3,15 @@ layout: default
 title: 6. Docker Compose
 ---
 
+If you want to follow the instructions in this section, you need to remove the running todo-app and mysql containers first:
+
+```
+docker rm -f todo
+docker rm -f mysql
+```
+
+<hr>
+
 **Docker Compose** is a tool for defining and running multi-container applications (workloads). Compose simplifies the control of your entire application stack, making it easy to manage services, networks, and volumes in a single, comprehensible YAML configuration file. Then, with a single command, you create and start all the services from your configuration file.
 
 The term 'service' is new in the context of this workshop: a service is a building block in a Docker Compose application, it is an abstraction layer over a Docker container. A Docker Compose application is typically made up of more than one service or container.
@@ -48,13 +57,13 @@ Again the `docker run`command for MySQL on the left, on the right we add to the 
 
 You may have noticed that there is no `network` defined, Docker Compose will automatically create a network for us. Also `network-alias` is not required for MySQL, every service automatically has a unique network name based on its service name, the todo container can connect to the mysql container with its name `mysql`.
 
-You now start the workload with
+There is a sample [docker-compose.yaml](../app/docker-compose.yaml){:target="_blank"} in the `app` directory. It will be used when you start the workload with
 
 ```
 docker-compose up
 ```
 
-This connad will log all kind of messages to the console.
+This command will log all kind of messages to the console.
 
 Docker Compose will pull images as needed, then it will create a network, a volume, and two containers:
 

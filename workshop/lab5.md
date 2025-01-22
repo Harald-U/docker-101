@@ -176,6 +176,49 @@ To fix this, we need to restructure our Dockerfile to help support the caching o
 
     First off, you should notice that the build was MUCH faster (0.2 s vs. 9.0 s)! And, you'll see that steps 2,3, and 4 all have been CACHED. So we are using the build cache. Pushing and pulling this image and updates to it will be much faster as well. 
 
+## "Dangling" Images, Image Tags
+
+During this lab, whenever we build and rebuild the todo-app container image, we did so without specifiying a tag with the name.
+
+List all container images with this command:
+
+```
+docker image ls
+```
+
+and check for the todo image:
+
+```
+REPOSITORY                    TAG         IMAGE ID       CREATED              SIZE
+todo-app                      latest      6866f3c2eb2e   34 seconds ago       222MB
+<none>                        <none>      9c60391389f0   About a minute ago   222MB
+<none>                        <none>      7c8c52d18f97   19 minutes ago       222MB
+<none>                        <none>      53c0e6d51d54   36 minutes ago       222MB
+...
+```
+
+When you build a container image with a name but without a tag, Docker will give it the tag "latest".
+
+Note the three images with name and tag of `<none>`. Whenever you build a new todo-app image, it replaces the prevously built image which in turn "looses" the name and the tag.
+
+In a real scenario, whenever you build a container, you should give it a meaningful tag, e.g. v1 for Version 1:
+
+```
+docker build -t todo-app:v1 .
+```
+
+And when you add functions, use a new tag to build a new image:
+
+```
+docker build -t todo-app:v2 .
+```
+
+To get rid of the "dangling" images (the `<none> <none>` images) use this command:
+
+```
+docker image prune
+```
+
 ## Multi-Stage Builds
 
 While we are not going to dive into it too much in this tutorial, multi-stage builds are an incredibly powerful tool to help use multiple stages to create an image. There are several advantages for them:
