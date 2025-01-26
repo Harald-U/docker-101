@@ -24,16 +24,16 @@ In our ToDo example in this workshop, using docker-compose actually makes sense:
 
 - We have two containers, ToDo app and MySQL, that means we need to create two services
 - Both services require environment variables for configuration
-- One of the services requires a volume to persistently store data 
+- The MySQL service requires a volume to persistently store data 
 - We need a network for the services to communicate with each other
 
-Instead of using several docker commands we can use docker-compose and a single configuration file `docker-compose.yaml`. (There is a sample docker-compose.yaml file in the app directory.)
+Instead of using several docker commands we can use docker-compose and a single configuration file `docker-compose.yaml`. (There is a sample [docker-compose.yaml](../app/docker-compose.yaml){:target="_blank"} file in the app directory.)
 
 ## Structure of docker-compose.yaml
 
 The following picture compares a `docker run` command for the ToDo app on the left with a `docker-compose.yaml` file on the right:
 
-![comaprison 1](images/docker-compose1.png)
+![comparison 1](images/docker-compose1.png)
 
 * A container in Docker Compose is called a service, hence the yaml file must begin with the `services:` statement.
 * The service name `todo`(2) is equivalent to the `--name` tag (1) in `docker run`, it will provide a name for the running container *.
@@ -41,7 +41,7 @@ The following picture compares a `docker run` command for the ToDo app on the le
 * One or more environment variables (5) will go in the `environment:` section (6)
 * The last parameter of the `docker run` command is always the name of the container image (7), this will go into the `image` section (8) 
 
-*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. You can specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element){:target="_blank"}. 
+*) Actually, the name of the service (e.g. todo) will be the network name or alias of the running container. The container name will be a combination of the directory name in which the docker-compose.yaml is located, the service name and a number, e.g. `app-todo-1`. Depending on the Docker version you may be able to specify a specific name for your workload by adding a `name:` statement to docker-compose.yaml as described [here](https://docs.docker.com/compose/compose-file/04-version-and-name/#name-top-level-element){:target="_blank"}. 
 
 Now we will add the MySQL container.
 
@@ -63,7 +63,7 @@ There is a sample [docker-compose.yaml](../app/docker-compose.yaml){:target="_bl
 docker-compose up
 ```
 
-This command will log all kind of messages to the console.
+This command will log all kind of messages to the console. When you look at them closely you will notice that most messages are from MySQL, but there are some messages from ToDo as well. 
 
 Docker Compose will pull images as needed, then it will create a network, a volume, and two containers:
 
@@ -210,6 +210,8 @@ or include a build in the startup if required with:
 ```
 docker-compose up --build
 ```
+
+There a whole lot more possibilities with docker-compose build. When building several different containers with a single docker-compose.yaml file you need to be able to specify more than one Dockerfile. To do this you can define a 'context'. This can be another directory or even a Git repository. You can find examples in the [Compose Build Specification](https://docs.docker.com/reference/compose-file/build/){:target="_blank"}.
 
 ## Environment variables
 

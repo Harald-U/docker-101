@@ -24,7 +24,7 @@ In this workshop, you will learn some Docker or Container basics, like:
 
 Docker can be Docker CE for Linux or Docker Desktop for Mac, Windows, or Linux. We will not cover installation of Docker (Desktop) in this workshop.  
 
-> **Note: bwLehrpool** has all the required software installed. Change into the PERSISTENCE directory before cloning the repository in the next step.
+> **Note: bwLehrpool** has all the required software installed. Change into the PERSISTENT directory before cloning the repository in the next step.
 
 ## Labs
 

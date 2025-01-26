@@ -23,7 +23,7 @@ cd docker-101/app
 
 In order to build a container image, we need to use a Dockerfile. A Dockerfile is something like a cooking recipe. It is simply a text-based script of instructions and "ingredients" that are used to package your application into a container image. 
 
-1. Create a file named Dockerfile **in the same folder as the file package.json** with the following contents:
+1. Create a file named `Dockerfile` **in the same folder as the file package.json** with the following contents:
 
    ```
    FROM node:18-alpine
