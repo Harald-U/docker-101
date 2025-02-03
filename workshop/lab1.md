@@ -11,6 +11,8 @@ At this point, your development team is quite small and you're simply building a
 
 ## Get the code
 
+**Note bwLehrpool:** Change into the PERSISTENT directory before cloning the repository!
+
 ```
 git clone https://github.com/Harald-U/docker-101.git
 cd docker-101/app
@@ -33,6 +35,8 @@ In order to build a container image, we need to use a Dockerfile. A Dockerfile i
    EXPOSE 3000
    CMD ["node", "src/index.js"]
    ```
+
+   **Note bwLehrpool:** As editor in Ubuntu you can use 'vi' or 'nano' which are text-based in the shell or you can use 'gedit', a GUI text editor, available also in the sidebar.
 
    > Please check that the file Dockerfile has no file extension like .txt. Some editors may append this file extension automatically and this would result in an error in the next step.
 
