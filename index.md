@@ -32,7 +32,7 @@ Docker can be Docker CE for Linux or Docker Desktop for Mac, Windows, or Linux. 
 We are going to deploy a ToDo app based on Node.js. It can run "stand-alone" using a built in SQLite database or it can connect with a external MySQL database. 
 
 - [1 - Deploy ToDo stand-alone](workshop/lab1.md)
-- [2 - Update the app, build a new image](workshop/lab2.md) - Update the app, build a new image
+- [2 - Update the app, build a new image](workshop/lab2.md)
 - [3 - Persisiting the data, Volumes](workshop/lab3.md)
 - [4 - Add MySQL DB, Multi-Container apps](workshop/lab4.md)
 - [5 - Image Building Best Practises](workshop/lab5.md)
