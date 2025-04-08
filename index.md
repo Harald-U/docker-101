@@ -5,7 +5,7 @@ title: Overview
 
 This workshop is based on the [Docker 101 Tutorial](https://www.docker.com/101-tutorial/){:target="_blank"}, created by Docker and others. I wanted to focus on different aspects hence the fork. 
 
-For this workhop I used the original Docker 101 Todo app and a great deal of the original texts from the [Docker 101 Github repo](https://github.com/docker/getting-started){:target="_blank"}. A big thanks to Docker. Inc. for placing their work under an Apache 2.0 license.
+For this workhop I used the original Docker 101 Todo app and a great deal of the original texts from the [Docker 101 Github repo](https://github.com/docker/getting-started){:target="_blank"}. A big thanks to Docker, Inc. for placing their work under an Apache 2.0 license.
 
 ## Objectives
 
@@ -16,6 +16,7 @@ In this workshop, you will learn some Docker or Container basics, like:
 * Starting a container
 * Container networking
 * Mounting external "volumes" onto containers
+* A liitle bit about docker-compose
 
 ## Prerequisites
 
@@ -35,4 +36,6 @@ We are going to deploy a ToDo app based on Node.js. It can run "stand-alone" usi
 - [Lab 3](workshop/lab3.md) - Persisiting the data, Volumes
 - [Lab 4](workshop/lab4.md) - Add MySQL DB, Multi-Container apps
 - [Lab 5](workshop/lab5.md) - Image Building Best Practises
+- [Lab 6](workshop/lab6.md) - Docker Compose
+- [7](workshop/lab7.md) - Tips and useful commands
 
