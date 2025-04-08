@@ -16,7 +16,7 @@ In this workshop, you will learn some Docker or Container basics, like:
 * Starting a container
 * Container networking
 * Mounting external "volumes" onto containers
-* A liitle bit about docker-compose
+* A little bit about docker-compose
 
 ## Prerequisites
 
@@ -31,11 +31,11 @@ Docker can be Docker CE for Linux or Docker Desktop for Mac, Windows, or Linux. 
 
 We are going to deploy a ToDo app based on Node.js. It can run "stand-alone" using a built in SQLite database or it can connect with a external MySQL database. 
 
-- [Lab 1](workshop/lab1.md) - Deploy ToDo stand-alone
-- [Lab 2](workshop/lab2.md) - Update the app, build a new image
-- [Lab 3](workshop/lab3.md) - Persisiting the data, Volumes
-- [Lab 4](workshop/lab4.md) - Add MySQL DB, Multi-Container apps
-- [Lab 5](workshop/lab5.md) - Image Building Best Practises
-- [Lab 6](workshop/lab6.md) - Docker Compose
-- [7](workshop/lab7.md) - Tips and useful commands
+- [1 - Deploy ToDo stand-alone](workshop/lab1.md)
+- [2 - Update the app, build a new image](workshop/lab2.md) - Update the app, build a new image
+- [3 - Persisiting the data, Volumes](workshop/lab3.md)
+- [4 - Add MySQL DB, Multi-Container apps](workshop/lab4.md)
+- [5 - Image Building Best Practises](workshop/lab5.md)
+- [6 - Docker Compose](workshop/lab6.md)
+- [7 - Tips and useful commands](workshop/lab7.md)
 
